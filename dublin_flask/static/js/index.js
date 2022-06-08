@@ -1,1 +1,0 @@
-//this is the JavaScript for the index page
