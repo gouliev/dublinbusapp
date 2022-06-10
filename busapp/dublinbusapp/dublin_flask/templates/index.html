@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <script src="https://kit.fontawesome.com/ea8bc4d19f.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="{{url_for('static', filename='/css/index.css')}}">
+    <title>Bus</title>
+</head>
+<body>
+    <div class="title text-light text-center">
+        <h1>Dublin Bus</h1>
+    </div>
+    <div class="container1">
+        <header class="text-center text-light  my-4">
+            <h1 class="mb-4">Todo List</h1>
+            <!-- <form class="search"> -->
+                <input type="text" class="form-control m-auto" name="start" placeholder="start" />
+            <!-- </form> -->
+            <!-- <form class="search"> -->
+                <input type="text" class="form-control m-auto" name="end" placeholder="end" />
+            <!-- </form> -->
+            <button type="button" class="btn btn-warning  btn-lg mt-3">-------GO--------</button>
+           
+        </header>
+
+        <div class="routeList  d-none">
+å
+
+        </div>
+
+
+        <!-- <form class="add text-center my-4">
+            <label class="text-light">Add a new todo...</label>
+            <input type="text" class="form-control m-auto" name="add" />
+        </form> -->
+
+    </div>
+
+    <div class="container2 my-5 mx-auto">
+
+        <h1 class="text-center my-4 text-light">Weather</h1>
+
+        <form class="change-location my-4 text-center text-light" id="weatherForm">
+            <label for="city" class="mb-4">Enter a city for weather information</label>
+            <input type="text" name="city" class="form-control p-4">
+        </form>
+
+        <div class="card shadow-lg rounded d-none">
+            <img src="https://via.placeholder.com/400x300" class="time card-img-top">
+            <div class="icon bg-light mx-auto text-center">
+                <img src="" alt="">
+            </div>
+            <div class="text-muted text-uppercase text-center details">
+                <h5 class="my-3">city name</h5>
+                <div class="my-3">Weather condition</div>
+                <div class="display-4 my-4">
+                    <span>temp</span>
+                    <span>&deg;</span>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- weather script -->
+    <script src="{{url_for('static', filename='/js/weatherapi.js')}}"></script>
+    <script src="{{url_for('static', filename='/js/weatherInteractive.js')}}"></script>
+
+
+
+    <!-- map script -->
+    <script src="{{url_for('static', filename='/js/searchbox.js')}}"></script>
+
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type=text/javascript>
+      // Set-up connection variable between JS and Flask server application
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    <div class="map">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH8-w9OpXSnHpvarF58SZQhyaKOjSOPUQ&callback=initMap&libraries=places" 
+        async defer></script> 
+    </div>  -->
+
+
+</body>
+</html>
