@@ -1,5 +1,5 @@
 from flask import Flask
-from dublin_flask import app
+from flask_react import app
 #runs the application
 if __name__=="__main__":
     app.run(debug=True)
