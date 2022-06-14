@@ -9,8 +9,6 @@ app.config.from_object(Config)
 CORS(app) #comment this on deployment
 api = Api(app)
 
-@app.route("/", defaults={'path':''})
-def serve(path):
-    return send_from_directory(app.static_folder,'index.html')
-
 api.add_resource(HelloApiHandler, '/flask/hello')
+
+from flask_react import routes
