@@ -10,7 +10,7 @@ app.config.from_object(Config)
 CORS(app) #comment this on deployment
 api = Api(app)
 
-#This API handler may not be needed
+#This API handler may not be needed for final production version
 api.add_resource(HelloApiHandler, '/flask/hello')
 
 from flask_react import routes
