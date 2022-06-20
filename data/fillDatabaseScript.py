@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 #only works running from server
 import sqlalchemy
 import csv
