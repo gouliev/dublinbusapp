@@ -4,20 +4,20 @@
 import sqlalchemy
 import csv
 import pymysql
+import os
+from urllib.parse import quote
+from dotenv import load_dotenv
+load_dotenv()
 
-with open("hiddenCredentials.txt") as f:
-    lines = f.readlines()
-    username = lines[0]
-    password = lines[1].strip()
-    url = lines[2]
-    port = lines[3]
-    database = lines[4]
-
-engine = sqlalchemy.create_engine("mysql+pymysql://{}:{}@{}:{}/{}".format(username, password, url, port, database))
+password = os.getenv('DB_PASSWORD')
+# with open("hiddenCredentials.txt") as f:
+#     lines = f.readlines()
+#     password = lines[0].strip()
+    
+engine = sqlalchemy.create_engine("mysql+pymysql://oscar:{}@localhost:3306/dublinbus".format(quote(password)))
 connection = engine.connect()
 
-
-    
+os.chdir("/home/student/DublinBus/data")
 with open("rt_vehicles_DB_2018.txt",newline='') as file:
     reader = csv.DictReader(file, delimiter=';')
     
