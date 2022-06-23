@@ -7,12 +7,9 @@ import pymysql
 import os
 from urllib.parse import quote
 from dotenv import load_dotenv
-load_dotenv()
 
+load_dotenv()
 password = os.getenv('DB_PASSWORD')
-# with open("hiddenCredentials.txt") as f:
-#     lines = f.readlines()
-#     password = lines[0].strip()
     
 engine = sqlalchemy.create_engine("mysql+pymysql://oscar:{}@localhost:3306/dublinbus".format(quote(password)))
 connection = engine.connect()
