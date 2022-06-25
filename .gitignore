@@ -1,1 +1,4 @@
 *.pyc
+data/rt_leavetimes_2017_I_DB_1000.txt
+data/rt_trips_2017_I_DB_1000.txt
+.env
