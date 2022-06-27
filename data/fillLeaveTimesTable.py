@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+x#!/usr/bin/python3
 
 #only works running from server
 import sqlalchemy
