@@ -64,6 +64,7 @@ async function calculateRoute(){
         setDestinationStation(results.routes[0].legs[0].steps[1].transit.arrival_stop.name)
         setTransitDistance(results.routes[0].legs[0].steps[1].distance.text)
         setTransitDuration(results.routes[0].legs[0].steps[1].duration.text)
+        console.log(results)
 }
 function clearRoute(){
     setShowRoute(false)

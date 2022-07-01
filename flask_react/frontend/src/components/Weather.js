@@ -1,6 +1,9 @@
 import React from 'react'
 import { useState, useEffect } from "react";
 
+//uncomment all of this to reactivate the weather
+
+/*
 export default function Weather() {
     const [key,setKey] = useState('QUGY2QGbwOgTrq3Uitnu6O2Yce4KFaY8');
     const [weatherURL,setWeatherURL] = useState('http://dataservice.accuweather.com/currentconditions/v1/');
@@ -98,4 +101,4 @@ export default function Weather() {
 
 
 
-
+*/
