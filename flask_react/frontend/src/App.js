@@ -1,13 +1,13 @@
 import React from 'react'
 import './App.css';
 import MapAndSearchBox from './components/MapAndSearchBox';
-//import Weather from './components/Weather';
+import Weather from './components/Weather';
 
 function App() {
   return (
     <div className="App">
       <div className='topSide'>
-       
+      <Weather/>
       </div>
       <div className='MapAndSearchBox'>
         <MapAndSearchBox />
@@ -16,6 +16,6 @@ function App() {
   );
 }
 
-// this goes beneath topSide div when reactivating the weather <Weather/>
+// this goes beneath topSide div when reactivating the weather
 
 export default App;
