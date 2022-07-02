@@ -1,7 +1,6 @@
 import React from 'react'
 import './App.css';
 import MapAndSearchBox from './components/MapAndSearchBox';
-import clearRoute from './components/MapAndSearchBox';
 //import Weather from './components/Weather';
 
 function App() {
@@ -13,7 +12,6 @@ function App() {
       <div className='MapAndSearchBox'>
         <MapAndSearchBox />
       </div>
-      <clearRoute/>
     </div>
   );
 }
