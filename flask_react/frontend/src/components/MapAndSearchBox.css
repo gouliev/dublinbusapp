@@ -1,0 +1,40 @@
+.Map{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+
+}
+.SearchBox{
+    position: relative;
+    left: 200px;
+    width: 500px;
+    top: 150px;
+  }
+  .SearchBox input{
+      display: block;
+      text-align: left;
+      width: 500px;
+      margin: 5px auto;
+      padding: 5px;
+      box-sizing: border-box;
+      font-size: 1.2em;
+      position: relative;
+      float:none;
+      right: 150px;
+      background: rgba(37, 204, 230, 0.2);
+  }
+  .SearchBox .btn{
+    display: block;
+    text-align:center;
+    width: 500px;
+    margin: 5px auto;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 1.2em;
+    position: relative;
+    float:none;
+    right: 150px;
+    color: black;
+    background: #28c96e;
+  
+  }

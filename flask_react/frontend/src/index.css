@@ -5,62 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #f3f2f5;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-html{
-  background: #352f5b;
-  letter-spacing: 0.2em;
-  font-size: 0.8em;
-  width:1366px;
-  height:auto;
-  overflow:script;
-  margin:0 auto;
-}
-.container1{
-  max-width: 400px;
-  float: left;
-  margin: 30px;
-  position: relative;
-
-}
-input[type=text],
-input[type=text]:focus{
-  color: #fff;
-  border: none;
-  background: rgba(0,0,0,0.2);
-  max-width: 400px;
-}
-.choice1 li{
-  background: #423a6f;
-}
-.delete{
-  cursor: pointer;
-}
-.filtered{
-  display: none !important;
-}
-.container2{
-  max-width: 400px;
-  float: right;
-  margin: 30px;
-  position: relative;
-
-}
-
-.icon{
-  position: relative;
-  top: -50px;
-  border-radius: 50%;
-  width: 100px;
-  margin-bottom: -50px;
-}
-
-.map { 
-  top:100px;
-  width:900px; 
-} 
