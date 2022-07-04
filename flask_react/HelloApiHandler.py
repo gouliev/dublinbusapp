@@ -1,6 +1,7 @@
 from flask_restful import Api, Resource, reqparse
 
 #class HelloApiHandler is retrieved from/implemented from https://towardsdatascience.com/build-deploy-a-react-flask-app-47a89a5d17d9
+#This file may not be needed in the final production version
 
 class HelloApiHandler(Resource):
   def get(self):

@@ -1,32 +1,21 @@
-import logo from './logo.svg';
+import React from 'react'
 import './App.css';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios'
+import MapAndSearchBox from './components/MapAndSearchBox';
+import Weather from './components/Weather';
 
 function App() {
-  const [getMessage, setGetMessage] = useState({})
-
-  useEffect(()=>{
-    axios.get('http://localhost:5000/flask/hello').then(response => {
-      console.log("SUCCESS", response)
-      setGetMessage(response)
-    }).catch(error => {
-      console.log(error)
-    })
-
-  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>React + Flask Tutorial</p>
-        <div>{getMessage.status === 200 ? 
-          <h3>{getMessage.data.message}</h3>
-          :
-          <h3>LOADING</h3>}</div>
-      </header>
+      <div className='topSide'>
+      <Weather/>
+      </div>
+      <div className='MapAndSearchBox'>
+        <MapAndSearchBox />
+      </div>
     </div>
   );
 }
+
+// this goes beneath topSide div when reactivating the weather
 
 export default App;
