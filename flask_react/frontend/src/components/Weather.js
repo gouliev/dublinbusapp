@@ -41,10 +41,10 @@ export default function Weather() {
     },[fetchWeather])
     setTimeout(() => {
       setWeatherText(weather.WeatherText)
-      //setTemperature(weather.Temperature.Metric.Value)
+      setTemperature(weather.Temperature.Metric.Value)
       setWeatherIcon(`img2/icons/${weather.WeatherIcon}.svg`)
       weather.IsDayTime ? setDayOrNight(true) : setDayOrNight(false)
-    },2000);
+    },1000);
     console.log(weather,weatherText,weatherIcon,dayOrNight)
 
   return (
@@ -69,10 +69,6 @@ export default function Weather() {
                             <a className="nav-link active" aria-current="page" href="#">Welcome to The Beautiful Dublin</a>
                         </li>
                       </ul>
-                      <form className="d-flex" role="search">
-                        <input className="form-control me-2 cityForm" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-success" type="submit">Search</button>
-                      </form>
                   </div>
                 </div>
           </nav>}
@@ -92,10 +88,6 @@ export default function Weather() {
                             <a className="nav-link active" aria-current="page" href="#">Welcome to The Beautiful Dublin</a>
                         </li>
                       </ul>
-                      <form className="d-flex text-white" role="search">
-                        <input className="form-control me-2 cityForm" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-success" type="submit">Search</button>
-                      </form>
                   </div>
                 </div>
           </nav>}
