@@ -10,7 +10,7 @@ class ChromeSearch(unittest.TestCase):
         driver = self.driver
         driver.get("http://127.0.0.1:5000")
         self.assertIn("Bus Routes", driver.title)
-        elem = driver.find_element_by_name("7D")
+        elem = driver.find_element_by_name("7A")
         elem.send_keys(Keys.RETURN)
 
     def tearDown(self):
