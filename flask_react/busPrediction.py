@@ -1,11 +1,12 @@
 import pandas as pd
+import pickle
+import os
 
 #class for producing prediction based results.
 class prediction():
-    
     def __init__(self, **kwargs):
-        self.route = kwargs["route"]
-        self.direction = kwargs["direction"]
+        #self.route = kwargs["route"]
+        #self.direction = kwargs["direction"]
         self.day = kwargs["day"]
         self.hour = kwargs["hour"]
         self.month = kwargs["month"]
@@ -36,8 +37,14 @@ class prediction():
     
     def getPrediction(self):
         self.data = self._cleanData()
+        requestData = self.data
+        pickled_model = pickle.load(open('model46A_1.pkl', 'rb'))
+        value = pickled_model.predict(requestData)
+        print(value)
+        return value
 
 
-month = str(9)
-print('m_'+month)
+
+
+print(prediction(day=0, hour=0, month=0, numberOfStations=28).getPrediction())
         
