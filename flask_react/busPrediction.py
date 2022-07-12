@@ -23,6 +23,9 @@ class prediction():
     #Each instance of the class will be cleaned to create a dataframe as displayed https://www.tutorialspoint.com/how-to-create-a-dataframe-in-python#:~:text=To%20create%20a%20dataframe%2C%20we,filled%20in%20the%20dataframe%20table.
     #This dataframe will then be passed into the pikl file https://practicaldatascience.co.uk/machine-learning/how-to-save-and-load-machine-learning-models-using-pickle
     #the output will be returned to the user in the form of a JSON data.
+    # https://www.tutorialspoint.com/how-to-create-a-dataframe-in-python#:~:text=To%20create%20a%20dataframe%2C%20we,filled%20in%20the%20dataframe%20table.
+    #https://practicaldatascience.co.uk/machine-learning/how-to-save-and-load-machine-learning-models-using-pickle
+    #
     def _cleanData(self):
         #here is the data m1-9, h6-23 and d1-6
         #if user input paramters outside this, make zero.
@@ -40,6 +43,7 @@ class prediction():
     def getPrediction(self):
         self.data = self._cleanData()
         requestData = pd.DataFrame(self.data)
+        #change this to a with function https://stackoverflow.com/questions/20101021/how-to-close-the-file-after-pickle-load-in-python
         pickled_model = pickle.load(open("C:/Users/SeanM/OneDrive/Documents/GitHub/dublinbusapp/flask_react/model46A_1.pkl", 'rb'))
         value = pickled_model.predict(requestData)
         print(value)
