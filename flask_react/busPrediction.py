@@ -42,7 +42,12 @@ class prediction():
     
     def _fileName(self):
         file_name = "model" + str(self.route) + "_" + str(self.direction) + ".pkl"
-        return file_name
+        directory = str(os.getcwd())
+        if os.path.exists(directory+file_name):
+            return file_name
+        else:
+            error_message = False
+            return error_message
 
     def _getPrediction(self):
         self.data = self._cleanData()
@@ -50,13 +55,16 @@ class prediction():
         #change this to a with function https://stackoverflow.com/questions/20101021/how-to-close-the-file-after-pickle-load-in-python
         directory = str(os.getcwd())
         filename = self._fileName()
+        if filename == False:
+            return 'Route Not Supported'
         pickled_model = pickle.load(open(directory + "/flask_react/models/" + filename, 'rb'))
-        value = pickled_model.predict(requestData)
+        prediction = pickled_model.predict(requestData)
+        value = prediction[0]
         return value
     
     def jsonPrediction(self):
         travelPrediction = self._getPrediction()
-        travelTime = travelPrediction[0]
+        travelTime = travelPrediction
         returnData = {'bus_route': self.route, 'direction':self.direction, 'travel_time':travelTime}
         return returnData
         
@@ -64,5 +72,5 @@ class prediction():
 
 print("Working dir:", os.getcwd())
 
-print(prediction(day=7, hour=3, month=12, numberOfStations=88, route="46A", direction = 1).jsonPrediction())
+print(prediction(day=7, hour=3, month=12, numberOfStations=88, route="49A", direction = 1).jsonPrediction())
         
