@@ -7,8 +7,8 @@ import sys
 #class for producing prediction based results.
 class prediction():
     def __init__(self, **kwargs):
-        #self.route = kwargs["route"]
-        #self.direction = kwargs["direction"]
+        self.route = kwargs["route"]
+        self.direction = kwargs["direction"]
         self.day = kwargs["day"]
         self.hour = kwargs["hour"]
         self.month = kwargs["month"]
@@ -40,11 +40,17 @@ class prediction():
             self.data['h_'+hour] = 1
         return self.data
     
+    def _fileName(self):
+        file_name = "model" + str(self.route) + "_" + str(self.direction) + ".pkl"
+        return file_name
+
     def getPrediction(self):
         self.data = self._cleanData()
         requestData = pd.DataFrame(self.data)
         #change this to a with function https://stackoverflow.com/questions/20101021/how-to-close-the-file-after-pickle-load-in-python
-        pickled_model = pickle.load(open("C:/Users/SeanM/OneDrive/Documents/GitHub/dublinbusapp/flask_react/model46A_1.pkl", 'rb'))
+        directory = str(os.getcwd())
+        filename = self._fileName()
+        pickled_model = pickle.load(open(directory + "/flask_react/" + filename, 'rb'))
         value = pickled_model.predict(requestData)
         print(value)
         return value
@@ -52,5 +58,5 @@ class prediction():
 
 print("Working dir:", os.getcwd())
 
-print(prediction(day=0, hour=0, month=0, numberOfStations=28).getPrediction())
+print(prediction(day=0, hour=0, month=0, numberOfStations=28, route="46A", direction = 1).getPrediction())
         
