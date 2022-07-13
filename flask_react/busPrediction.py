@@ -13,7 +13,7 @@ class prediction():
         self.hour = int(kwargs["hour"])
         self.month = int(kwargs["month"])
         self.numberOfStations = kwargs["numberOfStations"]
-        self.data = {'index':[0], 'progrnumber':[self.numberOfStations], 'm_2':[0], 'm_3':[0], 'm_4':[0], 'm_5':[0], 'm_6':[0], 'm_7':[0], 'm_8':[0],
+        self.data = {'progrnumber':[self.numberOfStations], 'm_2':[0], 'm_3':[0], 'm_4':[0], 'm_5':[0], 'm_6':[0], 'm_7':[0], 'm_8':[0],
                 'm_9':[0], 'm_10':[0], 'h_6':[0], 'h_7':[0],'h_8':[0],'h_9':[0],'h_10':[0],'h_11':[0],'h_12':[0],'h_13':[0],'h_14':[0],
                 'h_15':[0],'h_16':[0],'h_17':[0],'h_18':[0],'h_19':[0],'h_20':[0],'h_21':[0],'h_22':[0],'h_23':[0], 'd_1':[0], 'd_2':[0],
                 'd_3':[0], 'd_4':[0], 'd_5':[0], 'd_6':[0]}
