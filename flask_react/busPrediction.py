@@ -9,9 +9,9 @@ class prediction():
     def __init__(self, **kwargs):
         self.route = kwargs["route"]
         self.direction = kwargs["direction"]
-        self.day = kwargs["day"]
-        self.hour = kwargs["hour"]
-        self.month = kwargs["month"]
+        self.day = int(kwargs["day"])
+        self.hour = int(kwargs["hour"])
+        self.month = int(kwargs["month"])
         self.numberOfStations = kwargs["numberOfStations"]
         self.data = {'index':[0], 'progrnumber':[self.numberOfStations], 'm_2':[0], 'm_3':[0], 'm_4':[0], 'm_5':[0], 'm_6':[0], 'm_7':[0], 'm_8':[0],
                 'm_9':[0], 'm_10':[0], 'h_6':[0], 'h_7':[0],'h_8':[0],'h_9':[0],'h_10':[0],'h_11':[0],'h_12':[0],'h_13':[0],'h_14':[0],
@@ -20,12 +20,7 @@ class prediction():
     
     #The user will insert the time and date they wish to travel at. Where they are leaving from and going.
     #Data cleaning will follow the head of the modelTrainerTesting. It has one issue being the inclusion of Index.
-    #Each instance of the class will be cleaned to create a dataframe as displayed https://www.tutorialspoint.com/how-to-create-a-dataframe-in-python#:~:text=To%20create%20a%20dataframe%2C%20we,filled%20in%20the%20dataframe%20table.
-    #This dataframe will then be passed into the pikl file https://practicaldatascience.co.uk/machine-learning/how-to-save-and-load-machine-learning-models-using-pickle
-    #the output will be returned to the user in the form of a JSON data.
-    # https://www.tutorialspoint.com/how-to-create-a-dataframe-in-python#:~:text=To%20create%20a%20dataframe%2C%20we,filled%20in%20the%20dataframe%20table.
-    #https://practicaldatascience.co.uk/machine-learning/how-to-save-and-load-machine-learning-models-using-pickle
-    #
+    #this function inserts their data
     def _cleanData(self):
         #here is the data m1-9, h6-23 and d1-6
         #if user input paramters outside this, make zero.
@@ -39,20 +34,19 @@ class prediction():
             hour = str(self.hour)
             self.data['h_'+hour] = 1
         return self.data
-    
+    #this confirms that we can handle this specific route through checking for the files existence
     def _fileName(self):
         file_name = "model" + str(self.route) + "_" + str(self.direction) + ".pkl"
         directory = str(os.getcwd())
-        if os.path.exists(directory+file_name):
+        if os.path.exists(directory + "/flask_react/models/" +file_name):
             return file_name
         else:
             error_message = False
             return error_message
-
+    #this is the function which actually gets and returns the prediction
     def _getPrediction(self):
         self.data = self._cleanData()
         requestData = pd.DataFrame(self.data)
-        #change this to a with function https://stackoverflow.com/questions/20101021/how-to-close-the-file-after-pickle-load-in-python
         directory = str(os.getcwd())
         filename = self._fileName()
         if filename == False:
@@ -61,16 +55,10 @@ class prediction():
         prediction = pickled_model.predict(requestData)
         value = prediction[0]
         return value
-    
+    #this is the function which formats and returns the data
     def jsonPrediction(self):
         travelPrediction = self._getPrediction()
         travelTime = travelPrediction
         returnData = {'bus_route': self.route, 'direction':self.direction, 'travel_time':travelTime}
         return returnData
-        
-
-
-print("Working dir:", os.getcwd())
-
-print(prediction(day=7, hour=3, month=12, numberOfStations=88, route="49A", direction = 1).jsonPrediction())
         
