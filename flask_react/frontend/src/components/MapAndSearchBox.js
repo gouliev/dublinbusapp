@@ -144,8 +144,12 @@ const [style, setStyle] = useState([])
 
 const [coordinate,setCoordinate] = useState(center)
 
-
-
+//Store the steps 
+const [stations,setStations] = useState('')
+//store the route
+const [busRoute,setBusRoute] = useState('')
+//store our prediction
+const [ourPrediction,setOurPrediction] = useState('')
 
 /** @type React.MutableRefobject<HTMLInputElement> */ 
 const originRef = useRef()
@@ -174,7 +178,36 @@ async function calculateRoute(){
         setDestinationStation(results.routes[0].legs[0].steps[1].transit.arrival_stop.name)
         setTransitDistance(results.routes[0].legs[0].steps[1].distance.text)
         setTransitDuration(results.routes[0].legs[0].steps[1].duration.text)
+        //Here is set station steps, this is currently static but should be able to detect how many steps are to be made
+        setStations(results.routes[0].legs[0].steps[1].transit.num_stops.text)
+        //Here is the set bus route, this will grab the route and display it
+        setBusRoute(results.routes[0].legs[0].steps[1].transit.line.short_name.text) 
+        //call getPrediction here
+        getPrediction()
 }
+
+//function which calls our API currently set to manual time and day
+function getPrediction(){
+  const url = "http://127.0.0.1:5000/busRoute/" + JSON.stringify({busRoute}) + "/1/" + JSON.stringify({stations})  + "/4/6/16"
+  console.log(url)
+  fetch(url)
+  .then(res => res.json())
+  .then(
+    (result) => {
+      console.log(result)
+    },
+    // Note: it's important to handle errors here
+    // instead of a catch() block so that we don't swallow
+    // exceptions from actual bugs in components.
+    (error) => {
+      this.setState({
+        isLoaded: true,
+        error
+      });
+    }
+  )
+}
+
 function clearRoute(){
     setShowRoute(false)
     setDirectionsResponse(null)

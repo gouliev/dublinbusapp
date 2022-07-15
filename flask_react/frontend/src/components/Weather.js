@@ -30,7 +30,7 @@ export default function Weather() {
 //newyork :349727
 //dublin 207931
     const fetchWeather = useCallback (async () => {
-      const response = await fetch(weatherURL + `349727?apikey=${key}`)
+      const response = await fetch(weatherURL + `207931?apikey=${key}`)
       const json = await response.json()
       setWeather(json[0])
 
