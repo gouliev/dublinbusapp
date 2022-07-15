@@ -179,16 +179,17 @@ async function calculateRoute(){
         setTransitDistance(results.routes[0].legs[0].steps[1].distance.text)
         setTransitDuration(results.routes[0].legs[0].steps[1].duration.text)
         //Here is set station steps, this is currently static but should be able to detect how many steps are to be made
-        setStations(results.routes[0].legs[0].steps[1].transit.num_stops.text)
+        setStations(results.routes[0].legs[0].steps[1].transit.num_stops)
         //Here is the set bus route, this will grab the route and display it
-        setBusRoute(results.routes[0].legs[0].steps[1].transit.line.short_name.text) 
+        setBusRoute(results.routes[0].legs[0].steps[1].transit.line.short_name) 
         //call getPrediction here
-        getPrediction()
+        getPrediction(results)
 }
 
 //function which calls our API currently set to manual time and day
-function getPrediction(){
-  const url = "http://127.0.0.1:5000/busRoute/" + JSON.stringify({busRoute}) + "/1/" + JSON.stringify({stations})  + "/4/6/16"
+function getPrediction(results){
+  console.log(results)
+  const url = "http://127.0.0.1:5000/busRoute/" + results.routes[0].legs[0].steps[1].transit.line.short_name + "/1/" + results.routes[0].legs[0].steps[1].transit.num_stops  + "/4/6/16"
   console.log(url)
   fetch(url)
   .then(res => res.json())
