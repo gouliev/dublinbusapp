@@ -3,6 +3,7 @@
   height: 100%;
   width: 100%;
 
+
 }
 .SearchBox{
     position: relative;
@@ -36,5 +37,13 @@
     right: 150px;
     color: black;
     background: #28c96e;
-  
   }
+.input1.dark{
+  color: black;
+  background: white;
+}
+.darkLight{
+  float: left;
+  position: relative;
+  right: 25%;
+}
