@@ -144,8 +144,7 @@ const [style, setStyle] = useState([])
 
 const [coordinate,setCoordinate] = useState(center)
 
-
-
+const [ourPrediction, setOurPrediction] = useState(0)
 
 /** @type React.MutableRefobject<HTMLInputElement> */ 
 const originRef = useRef()
@@ -163,8 +162,12 @@ async function calculateRoute(){
         destination: destinationRef.current.value,
             // eslint-disable-next-line no-undef
         travelMode: "TRANSIT",
-        provideRouteAlternatives: true
+        provideRouteAlternatives: true,
+        transitOptions:{
+          modes:['BUS']
+        }
     })
+    getPrediction(results)
     console.log(results)
     //这里面所有数据都是routes数组中的
         setDirectionsResponse(results)
@@ -175,6 +178,58 @@ async function calculateRoute(){
         setTransitDistance(results.routes[0].legs[0].steps[1].distance.text)
         setTransitDuration(results.routes[0].legs[0].steps[1].duration.text)
 }
+
+//function which calls our API currently set to manual time and day
+//Takes in the API from Google as a parameter
+function getPrediction(results){
+  console.log(results)
+  //initialize the bus route list and bus station list
+  var busRouteList = []
+  var busStationList = []
+  //loop through each step to see if it is transit, if so add the values bus route name and station count to a list
+  //Loop through the length of the steps 
+  //if the travel mode is transit append that result to a list
+  for(var i=0; i<results.routes[0].legs[0].steps.length; i++){
+    var travelMode = results.routes[0].legs[0].steps[i].travel_mode
+    if(travelMode=="TRANSIT"){
+      busRouteList.push(results.routes[0].legs[0].steps[i].transit.line.short_name)
+      busStationList.push(results.routes[0].legs[0].steps[i].transit.num_stops)
+    }
+  }
+  console.log("List:", busRouteList)
+  console.log("List2:", busStationList)
+  // Initialize the prediction variable.
+  var predictionFloat=0
+  //loop through the length of the list for the given and request from API 
+  for(var i=0; i<busRouteList.length; i++){
+    const url = "http://127.0.0.1:5000/busRoute/" + busRouteList[i] + "/1/" + busStationList[i]  + "/4/6/16"
+    console.log(url)
+    fetch(url)
+    .then(res => res.json())
+    .then(
+      (prediction) => {
+        //add the time
+        predictionFloat += parseInt(prediction.travel_time)
+        //turn to minutes
+        var predictionMinutes = predictionFloat/60
+        //apeend to current prediction
+        var predictionAdded = ourPrediction + predictionMinutes
+        //set value
+        setOurPrediction(parseInt(predictionAdded))
+      },
+      // Note: it's important to handle errors here
+      // instead of a catch() block so that we don't swallow
+      // exceptions from actual bugs in components.
+      (error) => {
+        this.setState({
+          isLoaded: true,
+          error
+        });
+      }
+    )
+  }
+}
+
 function clearRoute(){
     setShowRoute(false)
     setDirectionsResponse(null)
@@ -270,8 +325,6 @@ const toggleMode = () => {
   }
 }
 
-
-
 return  isLoaded ?(
     <div>
         <div className='Map'>
@@ -336,7 +389,8 @@ return  isLoaded ?(
                     originStation={originStation}
                     destinationStation={destinationStation}
                     transitDistance={transitDistance}
-                    transitDuration={transitDuration}
+                    //here we go
+                    transitDuration={ourPrediction}
                 />
 
             }
