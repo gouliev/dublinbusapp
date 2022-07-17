@@ -144,7 +144,7 @@ const [style, setStyle] = useState([])
 
 const [coordinate,setCoordinate] = useState(center)
 
-const [ourPrediction, setOurPrediction] = useState('')
+const [ourPrediction, setOurPrediction] = useState(0)
 
 /** @type React.MutableRefobject<HTMLInputElement> */ 
 const originRef = useRef()
@@ -187,37 +187,47 @@ function getPrediction(results){
   var busRouteList = []
   var busStationList = []
   //loop through each step to see if it is transit, if so add the values bus route name and station count to a list
-  for(var i=0; i<3; i++){
+  //Loop through the length of the steps 
+  //if the travel mode is transit append that result to a list
+  for(var i=0; i<results.routes[0].legs[0].steps.length; i++){
     var travelMode = results.routes[0].legs[0].steps[i].travel_mode
     if(travelMode=="TRANSIT"){
       busRouteList.push(results.routes[0].legs[0].steps[i].transit.line.short_name)
+      busStationList.push(results.routes[0].legs[0].steps[i].transit.num_stops)
     }
   }
   console.log("List:", busRouteList)
-  var busRoute = results.routes[0].legs[0].steps[1].transit.line.short_name
-  var stationCount = results.routes[0].legs[0].steps[1].transit.num_stops
-  const url = "http://127.0.0.1:5000/busRoute/" + busRoute + "/1/" + stationCount  + "/4/6/16"
-  console.log(url)
-  fetch(url)
-  .then(res => res.json())
-  .then(
-    (prediction) => {
-      var predictionFloat= parseInt(prediction.travel_time)
-      var predictionMinutes = predictionFloat/60
-      var predictionString = predictionMinutes.toString()
-      console.log(predictionString)
-      setOurPrediction(predictionString)
-    },
-    // Note: it's important to handle errors here
-    // instead of a catch() block so that we don't swallow
-    // exceptions from actual bugs in components.
-    (error) => {
-      this.setState({
-        isLoaded: true,
-        error
-      });
-    }
-  )
+  console.log("List2:", busStationList)
+  // Initialize the prediction variable.
+  var predictionFloat=0
+  //loop through the length of the list for the given and request from API 
+  for(var i=0; i<busRouteList.length; i++){
+    const url = "http://127.0.0.1:5000/busRoute/" + busRouteList[i] + "/1/" + busStationList[i]  + "/4/6/16"
+    console.log(url)
+    fetch(url)
+    .then(res => res.json())
+    .then(
+      (prediction) => {
+        //add the time
+        predictionFloat += parseInt(prediction.travel_time)
+        //turn to minutes
+        var predictionMinutes = predictionFloat/60
+        //apeend to current prediction
+        var predictionAdded = ourPrediction + predictionMinutes
+        //set value
+        setOurPrediction(parseInt(predictionAdded))
+      },
+      // Note: it's important to handle errors here
+      // instead of a catch() block so that we don't swallow
+      // exceptions from actual bugs in components.
+      (error) => {
+        this.setState({
+          isLoaded: true,
+          error
+        });
+      }
+    )
+  }
 }
 
 function clearRoute(){
