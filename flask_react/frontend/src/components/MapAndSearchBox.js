@@ -144,6 +144,7 @@ const [style, setStyle] = useState([])
 
 const [coordinate,setCoordinate] = useState(center)
 
+// these might not be required in the eventual production version.
 //Store the steps 
 const [stations,setStations] = useState('')
 //store the route
@@ -167,7 +168,10 @@ async function calculateRoute(){
         destination: destinationRef.current.value,
             // eslint-disable-next-line no-undef
         travelMode: "TRANSIT",
-        provideRouteAlternatives: true
+        provideRouteAlternatives: true,
+        transitOptions:{
+          modes:['BUS']
+        }
     })
     console.log(results)
     //这里面所有数据都是routes数组中的
@@ -189,13 +193,16 @@ async function calculateRoute(){
 //function which calls our API currently set to manual time and day
 function getPrediction(results){
   console.log(results)
-  const url = "http://127.0.0.1:5000/busRoute/" + results.routes[0].legs[0].steps[1].transit.line.short_name + "/1/" + results.routes[0].legs[0].steps[1].transit.num_stops  + "/4/6/16"
+  var busRoute = results.routes[0].legs[0].steps[1].transit.line.short_name
+  var stationCount = results.routes[0].legs[0].steps[1].transit.num_stops
+  const url = "http://127.0.0.1:5000/busRoute/" + busRoute + "/1/" + stationCount  + "/4/6/16"
   console.log(url)
   fetch(url)
   .then(res => res.json())
   .then(
-    (result) => {
-      console.log(result)
+    (prediction) => {
+      console.log(prediction.travel_time)
+      setOurPrediction()
     },
     // Note: it's important to handle errors here
     // instead of a catch() block so that we don't swallow
@@ -370,7 +377,8 @@ return  isLoaded ?(
                     originStation={originStation}
                     destinationStation={destinationStation}
                     transitDistance={transitDistance}
-                    transitDuration={transitDuration}
+                    //here we go
+                    transitDuration={ourPrediction}
                 />
 
             }
