@@ -202,6 +202,7 @@ function getPrediction(results){
   var predictionFloat=0
   //loop through the length of the list for the given and request from API 
   for(var i=0; i<busRouteList.length; i++){
+    //this URL will be changed based on user input
     const url = "http://127.0.0.1:5000/busRoute/" + busRouteList[i] + "/1/" + busStationList[i]  + "/4/6/16"
     console.log(url)
     fetch(url)
@@ -233,7 +234,7 @@ function getPrediction(results){
 function clearRoute(){
     setShowRoute(false)
     setDirectionsResponse(null)
-    
+    setOurPrediction(0)
     setDistance('')
     setDuration('')
     setOriginStation('')
