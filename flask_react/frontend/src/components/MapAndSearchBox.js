@@ -110,8 +110,8 @@ const center = {
     lng: -6.260278
   };
 const containerStyle = {
-width: '99%',
-height: '99%'
+width: '100%',
+height: '100%'
 };
 const zoom = 14;
 
@@ -209,6 +209,7 @@ function getPrediction(results){
     .then(res => res.json())
     .then(
       (prediction) => {
+        console.log(prediction)
         //add the time
         predictionFloat += parseInt(prediction.travel_time)
         //turn to minutes
