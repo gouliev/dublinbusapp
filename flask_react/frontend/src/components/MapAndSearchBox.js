@@ -7,101 +7,10 @@ import {
     Autocomplete, 
     DirectionsRenderer,
     
-    
 } from '@react-google-maps/api';
-
-import Geocode from 'react-geocode'
-
 import Info from './Info'
-
 import './MapAndSearchBox.css'
 
-import modeIcon from '../assets/mode-icon.svg'
-
-import { useTheme } from '../hooks/useTheme';
-
-
-const exampleMapStyles = 
-    [
-        { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-        { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-        { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-        {
-          featureType: "administrative.locality",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }]
-        },
-        {
-          featureType: "poi",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }]
-        },
-        {
-          featureType: "poi.park",
-          elementType: "geometry",
-          stylers: [{ color: "#263c3f" }]
-        },
-        {
-          featureType: "poi.park",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#6b9a76" }]
-        },
-        {
-          featureType: "road",
-          elementType: "geometry",
-          stylers: [{ color: "#38414e" }]
-        },
-        {
-          featureType: "road",
-          elementType: "geometry.stroke",
-          stylers: [{ color: "#212a37" }]
-        },
-        {
-          featureType: "road",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#9ca5b3" }]
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry",
-          stylers: [{ color: "#746855" }]
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry.stroke",
-          stylers: [{ color: "#1f2835" }]
-        },
-        {
-          featureType: "road.highway",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#f3d19c" }]
-        },
-        {
-          featureType: "transit",
-          elementType: "geometry",
-          stylers: [{ color: "#2f3948" }]
-        },
-        {
-          featureType: "transit.station",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }]
-        },
-        {
-          featureType: "water",
-          elementType: "geometry",
-          stylers: [{ color: "#17263c" }]
-        },
-        {
-          featureType: "water",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#515c6d" }]
-        },
-        {
-          featureType: "water",
-          elementType: "labels.text.stroke",
-          stylers: [{ color: "#17263c" }]
-        }
-      ]
 
 
 
@@ -114,14 +23,6 @@ width: '99%',
 height: '99%'
 };
 const zoom = 14;
-
-Geocode.setApiKey("AIzaSyD7bAzj9B7jo2UGQaOfcJjZl-R7AtQ51so")
-Geocode.setLanguage("en")
-Geocode.setRegion("ie")
-Geocode.setLocationType("ROOFTOP")
-
-
-
 
 export default function MapAndSearchBox() {
 //searchBox
@@ -139,14 +40,6 @@ const [originStation, setOriginStation] = useState('')
 const [transitDistance, setTransitDistance] = useState('')
 const [transitDuration, setTransitDuration] = useState('')
 
-const { changeMode, mode } = useTheme()
-const [style, setStyle] = useState([])
-
-const [coordinate,setCoordinate] = useState(center)
-
-
-
-
 /** @type React.MutableRefobject<HTMLInputElement> */ 
 const originRef = useRef()
     /** @type React.MutableRefobject<HTMLInputElement> */ 
@@ -162,11 +55,8 @@ async function calculateRoute(){
         origin: originRef.current.value,
         destination: destinationRef.current.value,
             // eslint-disable-next-line no-undef
-        travelMode: "TRANSIT",
-        provideRouteAlternatives: true
+        travelMode: "TRANSIT"
     })
-    console.log(results)
-    //这里面所有数据都是routes数组中的
         setDirectionsResponse(results)
         setDistance(results.routes[0].legs[0].distance.text)
         setDuration(results.routes[0].legs[0].duration.text)
@@ -174,6 +64,7 @@ async function calculateRoute(){
         setDestinationStation(results.routes[0].legs[0].steps[1].transit.arrival_stop.name)
         setTransitDistance(results.routes[0].legs[0].steps[1].distance.text)
         setTransitDuration(results.routes[0].legs[0].steps[1].duration.text)
+        console.log(results)
 }
 function clearRoute(){
     setShowRoute(false)
@@ -188,7 +79,6 @@ function clearRoute(){
     originRef.current.value = ''
     destinationRef.current.value = ''
     console.log([directionsResponse,distance,duration,originStation,destinationStation,transitDistance,transitDuration])
-    
 }
 
 
@@ -207,7 +97,6 @@ const handleSubmit = (e) => {
     map.panTo(center)
     calculateRoute()
     resetForm()
-    
 }
 
 const swapAddress = () => {
@@ -215,31 +104,6 @@ const swapAddress = () => {
     originRef.current.value = destinationRef.current.value
     destinationRef.current.value = tempAddress
 }
-
-const handleGetLocation = () => {
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      const myPosition = position
-      const lng  = myPosition.coords.longitude
-      const lat  = myPosition.coords.latitude
-      const latLng = { lat, lng }
-      map.panTo(latLng)
-      Geocode.fromLatLng(lat, lng).then(
-        (response) => {
-          const address = response.results[0].formatted_address;
-          originRef.current.value = address
-        }
-      )
-      setCoordinate(latLng)
-      console.log(coordinate)
-
-      console.log(latLng)
-    }
-  )
-}
-
-
-
 //map
 const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -260,15 +124,10 @@ const onLoad = React.useCallback(function callback(map) {
 if(!isLoaded){
     return "loading"
 }
+// const onLoad = (autocomplete) => {
+// }
 
-const toggleMode = () => {
-  changeMode(mode === 'dark' ? 'light' : 'dark')
-  if(mode == 'light'){
-    setStyle(exampleMapStyles)
-  }else{
-    setStyle([])
-  }
-}
+//img
 
 
 
@@ -282,51 +141,36 @@ return  isLoaded ?(
                 zoom={zoom}
                 onLoad={onLoad}
                 onUnmount={onUnmount} 
-                options={{
-                    styles: style,
-                  }}
             >
-            <Marker onLoad={onLoad} position={center}/>
-            {coordinate && < Marker  onLoad={onLoad} position={coordinate}/>}
-            {showRoute &&  <DirectionsRenderer directions={directionsResponse} routeIndex={2}/> }
+            <Marker position={center}/>
+            {showRoute &&  <DirectionsRenderer directions={directionsResponse} /> }
             {/* {directionsResponse &&  <DirectionsRenderer directions={directionsResponse} /> } */}
             </GoogleMap>
         </div>
-        
-        <form className={`SearchBox`} onSubmit={handleSubmit}>
-        <img 
-            src={modeIcon} 
-            onClick={toggleMode} 
-            alt="dark/light toggle icon" 
-            style={{ filter: mode === 'dark' ? 'invert(100%)' : 'invert(20%)'}}
-            className='darkLight'
-            />
-            <label >  
+        {/* <div className='SearchBox'>
                 <Autocomplete>
                     <input 
-                        className={`input1 form-control form-control-lg ${mode}`}
+                        className="input1 form-control form-control-lg"
                         placeholder="Origin" 
                         aria-label=".form-control-lg example"
                         type="text" 
                         ref={originRef}
                     />
                 </Autocomplete>
-            </label>
-            <label >
+    
+ 
                 <Autocomplete>
                     <input 
-                        className={`input1 form-control form-control-lg ${mode}`}
+                        className="input1 form-control form-control-lg"
                         placeholder="Destination" 
                         aria-label=".form-control-lg example"
                         type="text" 
                         ref={destinationRef}
                     />
                 </Autocomplete>
-            </label>
-            <button onClick={handleGetLocation}  type="button" className="btn btn-success">Use my current position as origin</button>
-            <button onClick={swapAddress}  type="button" className="btn btn-success">Swap Address</button>
-            <button onClick={handleSubmit}  type="button" className="btn btn-success">Submit</button>
-            <button onClick={clearRoute}  type="button" className="btn btn-success">Clear Route</button>
+            <button onClick={swapAddress}  type="button" className="btn btn-success">swap Address</button>
+            <button onClick={handleSubmit}  type="button" className="btn btn-success">submit</button>
+            <button onClick={clearRoute}  type="button" className="btn btn-success">clear route</button>
             {showInfo && 
                 <Info 
                     setShowInfo={setShowInfo}
@@ -338,7 +182,46 @@ return  isLoaded ?(
                     transitDistance={transitDistance}
                     transitDuration={transitDuration}
                 />
-
+            }
+       
+        </div> */}
+        <form className='SearchBox' onSubmit={handleSubmit}>
+            <label >  
+                <Autocomplete>
+                    <input 
+                        className="input1 form-control form-control-lg"
+                        placeholder="Origin" 
+                        aria-label=".form-control-lg example"
+                        type="text" 
+                        ref={originRef}
+                    />
+                </Autocomplete>
+            </label>
+            <label >
+                <Autocomplete>
+                    <input 
+                        className="input1 form-control form-control-lg"
+                        placeholder="Destination" 
+                        aria-label=".form-control-lg example"
+                        type="text" 
+                        ref={destinationRef}
+                    />
+                </Autocomplete>
+            </label>
+            <button onClick={swapAddress}  type="button" className="btn btn-success">swap Address</button>
+            <button onClick={handleSubmit}  type="button" className="btn btn-success">submit</button>
+            <button onClick={clearRoute}  type="button" className="btn btn-success">clear route</button>
+            {showInfo && 
+                <Info 
+                    setShowInfo={setShowInfo}
+                    clearRoute={clearRoute} 
+                    distance={distance} 
+                    duration={duration}
+                    originStation={originStation}
+                    destinationStation={destinationStation}
+                    transitDistance={transitDistance}
+                    transitDuration={transitDuration}
+                />
             }
         </form>
     </div>
