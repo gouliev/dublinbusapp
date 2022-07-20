@@ -107,7 +107,7 @@ def cleanDatav2(route, direction):
     df.rename(columns={'date_x':'date'},inplace=True)
     df.drop(columns=['hour','day','date_y'], inplace=True)
     dftmp = df[(df.journeytime <= 0) & (df.progrnumber > 1)]
-    df = df[~df['date'].isin(dftmp['date']) | ~df['tripid'].isin(dftmp['tripid'])].reset_index()
+    df = df[~df['date'].isin(dftmp['date']) | ~df['tripid'].isin(dftmp['tripid'])].reset_index(drop=True)
 
     
     return df
