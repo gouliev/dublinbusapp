@@ -12,7 +12,7 @@ class prediction():
         self.day = int(kwargs["day"])
         self.hour = int(kwargs["hour"])
         self.month = int(kwargs["month"])
-        self.numberOfStations = kwargs["numberOfStations"]
+        self.numberOfStations = int(kwargs["numberOfStations"])+1 #added 1 as progrnumber from 1, not 0
         self.data = {'progrnumber':[self.numberOfStations], 'day':[0], 'month':[0], 'hour':[0]}
     
     #The user will insert the time and date they wish to travel at. Where they are leaving from and going.

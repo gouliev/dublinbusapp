@@ -110,8 +110,8 @@ const center = {
     lng: -6.260278
   };
 const containerStyle = {
-width: '99%',
-height: '99%'
+width: '100%',
+height: '100%'
 };
 const zoom = 14;
 
@@ -168,7 +168,7 @@ async function calculateRoute(){
         }
     })
     getPrediction(results)
-    console.log(results)
+    // console.log(results)
     //这里面所有数据都是routes数组中的
         setDirectionsResponse(results)
         setDistance(results.routes[0].legs[0].distance.text)
@@ -186,6 +186,7 @@ function getPrediction(results){
   //initialize the bus route list and bus station list
   var busRouteList = []
   var busStationList = []
+  var busDirectionList = []
   //loop through each step to see if it is transit, if so add the values bus route name and station count to a list
   //Loop through the length of the steps 
   //if the travel mode is transit append that result to a list
@@ -194,21 +195,24 @@ function getPrediction(results){
     if(travelMode=="TRANSIT"){
       busRouteList.push(results.routes[0].legs[0].steps[i].transit.line.short_name)
       busStationList.push(results.routes[0].legs[0].steps[i].transit.num_stops)
+      busDirectionList.push(results.routes[0].legs[0].steps[i].transit.headsign)
     }
   }
-  console.log("List:", busRouteList)
-  console.log("List2:", busStationList)
+  console.log("Routes:", busRouteList)
+  console.log("no.Stations:", busStationList)
+  console.log("Directions:", busDirectionList)
   // Initialize the prediction variable.
   var predictionFloat=0
   //loop through the length of the list for the given and request from API 
   for(var i=0; i<busRouteList.length; i++){
     //this URL will be changed based on user input
-    const url = "http://127.0.0.1:5000/busRoute/" + busRouteList[i] + "/1/" + busStationList[i]  + "/4/6/16"
+    const url = "http://127.0.0.1:5000/busRoute/" + busRouteList[i] +"/"+ busDirectionList[i] +"/"+ busStationList[i]  + "/4/6/16"
     console.log(url)
     fetch(url)
     .then(res => res.json())
     .then(
       (prediction) => {
+        console.log(prediction)
         //add the time
         predictionFloat += parseInt(prediction.travel_time)
         //turn to minutes

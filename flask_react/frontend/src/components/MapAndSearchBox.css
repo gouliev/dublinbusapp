@@ -1,6 +1,6 @@
 .Map{
   position: absolute;
-  height: 100%;
+  height: calc(100% - 70px);
   width: 100%;
 
 
