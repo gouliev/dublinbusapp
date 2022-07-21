@@ -1,0 +1,4 @@
+datasource;dayofservice;tripid;lineid;routeid;direction;plannedtime_arr;plannedtime_dep;actualtime_arr;actualtime_dep;basin;tenderlot;suppressed;justificationid;lastupdate;note
+DB,24-FEB-17 00:00:00,4388860,84A,84A_1,1 ,67967,65400,67842,65362,BasDef,,,,05-MAR-17 02:56:33,,2817382,
+DB,30-JAN-17 00:00:00,4327637,84A,84A_3,2 ,62563,59400,62033,59686,BasDef,,,,16-FEB-17 16:36:24,,1922685,
+DB,30-JAN-17 00:00:00,4327645,84A,84A_1,1 ,32420,29400,33905,29338,BasDef,,,,16-FEB-17 16:36:24,,1922679,

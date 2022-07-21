@@ -1,0 +1,3 @@
+datasource;dayofservice;tripid;lineid;routeid;direction;plannedtime_arr;plannedtime_dep;actualtime_arr;actualtime_dep;basin;tenderlot;suppressed;justificationid;lastupdate;note
+DB,24-FEB-17 00:00:00,4390109,65,65_74,1 ,60531,55800,61574,55918,BasDef,,,,05-MAR-17 02:56:33,,2817859,
+DB,10-MAR-17 00:00:00,4388496,65,65_74,1 ,81137,77400,81438,77526,BasDef,,,,16-MAR-17 11:26:26,,2817424,
