@@ -1,7 +1,0 @@
-CREATE DEFINER=`oscar`@`localhost` PROCEDURE `all_lines_directions`()
-begin
-select distinct lineid, direction
-from trips
-where lineid not in ('40E','16D','33E','41D')
-group by lineid, direction;
-end
