@@ -1,5 +1,5 @@
-import React from 'react'
-import { useState, useRef } from 'react';
+import React, { useCallback } from 'react'
+import { useState, useRef, useEffect } from 'react';
 import { 
     GoogleMap, 
     useJsApiLoader, 
@@ -19,7 +19,8 @@ import './MapAndSearchBox.css'
 import modeIcon from '../assets/mode-icon.svg'
 
 import { useTheme } from '../hooks/useTheme';
-
+import { roundToNearestMinutesWithOptions } from 'date-fns/fp';
+import { setDay, setMonth } from 'date-fns';
 
 const exampleMapStyles = 
     [
@@ -110,8 +111,8 @@ const center = {
     lng: -6.260278
   };
 const containerStyle = {
-width: '100%',
-height: '100%'
+width: '99%',
+height: '99%'
 };
 const zoom = 14;
 
@@ -144,13 +145,19 @@ const [style, setStyle] = useState([])
 
 const [coordinate,setCoordinate] = useState(center)
 
+const [dateTime, setDateTime] = useState('')
+
 const [ourPrediction, setOurPrediction] = useState(0)
 
 /** @type React.MutableRefobject<HTMLInputElement> */ 
 const originRef = useRef()
     /** @type React.MutableRefobject<HTMLInputElement> */ 
 const destinationRef = useRef()
-async function calculateRoute(){
+//depaturetime
+const dateRef = useRef()
+const timeRef = useRef()
+const haha = useRef()
+const calculateRoute =  async() => {
     
     if(originRef.current.value === '' || destinationRef.current.value === ''){
         return
@@ -164,7 +171,8 @@ async function calculateRoute(){
         travelMode: "TRANSIT",
         provideRouteAlternatives: true,
         transitOptions:{
-          modes:['BUS']
+          modes:['BUS'],
+          departureTime: new Date(haha.current)   
         }
     })
     getPrediction(results)
@@ -245,6 +253,8 @@ function clearRoute(){
     setDestinationStation('')
     setTransitDistance('')
     setTransitDuration('')
+    dateRef.current.value = ''
+    timeRef.current.value = ''
     originRef.current.value = ''
     destinationRef.current.value = ''
     console.log([directionsResponse,distance,duration,originStation,destinationStation,transitDistance,transitDuration])
@@ -258,6 +268,8 @@ function clearRoute(){
 const resetForm = () => {
     originRef.current.value = ''
     destinationRef.current.value = ''
+    dateRef.current.value = ''
+    timeRef.current.value = ''
 }
 
 const handleSubmit = (e) => {
@@ -265,6 +277,10 @@ const handleSubmit = (e) => {
     setShowRoute(true)
     setShowInfo(true)
     map.panTo(center)
+    const tempDateTime = dateRef.current.value + ' ' + timeRef.current.value 
+    //we use this
+    haha.current = tempDateTime
+    setDateTime(tempDateTime)
     calculateRoute()
     resetForm()
     
@@ -346,7 +362,7 @@ return  isLoaded ?(
             >
             <Marker onLoad={onLoad} position={center}/>
             {coordinate && < Marker  onLoad={onLoad} position={coordinate}/>}
-            {showRoute &&  <DirectionsRenderer directions={directionsResponse} routeIndex={2}/> }
+            {showRoute  &&  <DirectionsRenderer directions={directionsResponse} routeIndex={2}/> }
             {/* {directionsResponse &&  <DirectionsRenderer directions={directionsResponse} /> } */}
             </GoogleMap>
         </div>
@@ -359,28 +375,53 @@ return  isLoaded ?(
             style={{ filter: mode === 'dark' ? 'invert(100%)' : 'invert(20%)'}}
             className='darkLight'
             />
-            <label >  
+            <div>
                 <Autocomplete>
                     <input 
-                        className={`input1 form-control form-control-lg ${mode}`}
+                        className={`input1 form-control form-control-lg inputOrigin ${mode}`}
                         placeholder="Origin" 
                         aria-label=".form-control-lg example"
+                        style={{width:'100%',display:'flex', float:'left'}}
                         type="text" 
                         ref={originRef}
+                        required
                     />
                 </Autocomplete>
-            </label>
-            <label >
+                </div>
+                <div>
                 <Autocomplete>
                     <input 
-                        className={`input1 form-control form-control-lg ${mode}`}
+                        className={`input1 form-control form-control-lg inputDestination ${mode}`}
                         placeholder="Destination" 
                         aria-label=".form-control-lg example"
                         type="text" 
                         ref={destinationRef}
                     />
                 </Autocomplete>
-            </label>
+                </div>
+                <div  style={{float: 'left', display: 'flex', width: '100%'}}>
+                    <label >
+                            <input 
+                                className={`input1 inputDate form-control form-control-lg ${mode}`}
+                                placeholder="Month:XX" 
+                                aria-label=".form-control-lg example"
+                                type="date" 
+                                ref={dateRef}
+                                required
+                            />
+                    </label>
+                    <label >
+                            <input 
+                                className={`input1 inputDate form-control form-control-lg ${mode}`}
+                                placeholder="Day:XX" 
+                                aria-label=".form-control-lg example"
+                                type="time" 
+                                ref={timeRef}
+                                required
+                            />
+                    </label>
+                  
+                </div>
             <button onClick={handleGetLocation}  type="button" className="btn btn-success">Use my current position as origin</button>
             <button onClick={swapAddress}  type="button" className="btn btn-success">Swap Address</button>
             <button onClick={handleSubmit}  type="button" className="btn btn-success">Submit</button>
@@ -394,7 +435,7 @@ return  isLoaded ?(
                     originStation={originStation}
                     destinationStation={destinationStation}
                     transitDistance={transitDistance}
-                    //here we go
+
                     transitDuration={ourPrediction}
                 />
 
