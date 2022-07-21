@@ -209,6 +209,8 @@ function getPrediction(results){
   console.log("Routes:", busRouteList)
   console.log("no.Stations:", busStationList)
   console.log("Directions:", busDirectionList)
+  console.log("Date:", dateTime)
+  console.log("Directions:", busDirectionList)
   // Initialize the prediction variable.
   var predictionFloat=0
   //loop through the length of the list for the given and request from API 
