@@ -221,7 +221,7 @@ function getPrediction(results){
   //loop through the length of the list for the given and request from API 
   for(var i=0; i<busRouteList.length; i++){
     //this URL will be changed based on user input
-    const url = "http://127.0.0.1:5000/busRoute/" + busRouteList[i] +"/"+ busDirectionList[i] +"/"+ busStationList[i]  + "/" + datedate.getMonth() + "/" + datedate.getDay() + "/" + datedate.getHours()
+    const url = "http://127.0.0.1:5000/busRoute/" + busRouteList[i] +"/"+ busDirectionList[i] +"/"+ busStationList[i]  + "/" + (datedate.getMonth()+1) + "/" + (datedate.getDay()+6)%7 + "/" + datedate.getHours()
     console.log(url)
     fetch(url)
     .then(res => res.json())
