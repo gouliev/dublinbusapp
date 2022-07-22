@@ -1,6 +1,6 @@
 .Map{
   position: absolute;
-  height: calc(100% - 70px);
+  height: 100%;
   width: 100%;
 
 
@@ -11,7 +11,7 @@
     width: 500px;
     top: 150px;
   }
-  .SearchBox input{
+  /* .SearchBox input{
       display: block;
       text-align: left;
       width: 500px;
@@ -23,7 +23,13 @@
       float:none;
       right: 150px;
       background: rgba(37, 204, 230, 0.2);
-  }
+  } */
+  
+  .SearchBox input{
+    background: rgba(37, 204, 230, 0.2);
+    
+}
+
   .SearchBox .btn{
     display: block;
     text-align:center;
@@ -38,6 +44,21 @@
     color: black;
     background: #28c96e;
   }
+
+  .input1{
+    display: block;
+    text-align: left;
+    margin: 5px auto;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 1.2em;
+    position: relative;
+    float:none;
+    right: 150px;
+    
+  }
+
+
 .input1.dark{
   color: black;
   background: white;
@@ -46,4 +67,9 @@
   float: left;
   position: relative;
   right: 25%;
+  bottom: 20px;
+}
+.input1.inputDate{
+  padding-left: 104px;
+  
 }
