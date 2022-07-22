@@ -27,7 +27,7 @@ export default function Info({
           <li className="list-group-item"> <h2>Transit time is: {transitDuration}</h2></li>
         </ul>
         <div className="card-footer">
-          <button onClick={handleCloseAndClearMap} type="button" className="btn btn-danger">close</button>
+          <button onClick={handleCloseAndClearMap} type="button" className="btn btn-danger">Cear Route</button>
         </div>
     </div> 
   )
