@@ -190,7 +190,7 @@ const calculateRoute =  async() => {
 //function which calls our API currently set to manual time and day
 //Takes in the API from Google as a parameter
 function getPrediction(results){
-  console.log(results)
+  console.log("Here: ", results)
   //initialize the bus route list and bus station list
   var busRouteList = []
   var busStationList = []
@@ -209,14 +209,19 @@ function getPrediction(results){
   console.log("Routes:", busRouteList)
   console.log("no.Stations:", busStationList)
   console.log("Directions:", busDirectionList)
-  console.log("Date:", dateTime)
+  const datedate = new Date(haha.current)
+    console.log(Date(haha.current))
+    console.log(datedate)
+    console.log(datedate.getHours())
   console.log("Directions:", busDirectionList)
   // Initialize the prediction variable.
   var predictionFloat=0
+  //set prediction to zero 
+  setOurPrediction(0)
   //loop through the length of the list for the given and request from API 
   for(var i=0; i<busRouteList.length; i++){
     //this URL will be changed based on user input
-    const url = "http://127.0.0.1:5000/busRoute/" + busRouteList[i] +"/"+ busDirectionList[i] +"/"+ busStationList[i]  + "/4/6/16"
+    const url = "http://127.0.0.1:5000/busRoute/" + busRouteList[i] +"/"+ busDirectionList[i] +"/"+ busStationList[i]  + "/" + datedate.getMonth() + "/" + datedate.getDay() + "/" + datedate.getHours()
     console.log(url)
     fetch(url)
     .then(res => res.json())
