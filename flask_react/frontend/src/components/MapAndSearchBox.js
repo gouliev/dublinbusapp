@@ -148,6 +148,7 @@ const [coordinate,setCoordinate] = useState(center)
 const [dateTime, setDateTime] = useState('')
 
 const [ourPrediction, setOurPrediction] = useState(0)
+const [useButton, setUseButton] = useState(true)
 
 /** @type React.MutableRefobject<HTMLInputElement> */ 
 const originRef = useRef()
@@ -157,7 +158,7 @@ const destinationRef = useRef()
 const dateRef = useRef()
 const timeRef = useRef()
 const haha = useRef()
-const calculateRoute =  async() => {
+async function calculateRoute() {
     
     if(originRef.current.value === '' || destinationRef.current.value === ''){
         return
@@ -260,6 +261,7 @@ function clearRoute(){
     setDestinationStation('')
     setTransitDistance('')
     setTransitDuration('')
+    setUseButton(true)
     dateRef.current.value = ''
     timeRef.current.value = ''
     originRef.current.value = ''
@@ -280,6 +282,7 @@ const resetForm = () => {
 }
 
 const handleSubmit = (e) => {
+  if(useButton==true){
     e.preventDefault()
     setShowRoute(true)
     setShowInfo(true)
@@ -290,7 +293,8 @@ const handleSubmit = (e) => {
     setDateTime(tempDateTime)
     calculateRoute()
     resetForm()
-    
+    setUseButton(false)
+  }
 }
 
 const swapAddress = () => {
@@ -315,7 +319,6 @@ const handleGetLocation = () => {
       )
       setCoordinate(latLng)
       console.log(coordinate)
-
       console.log(latLng)
     }
   )
@@ -432,7 +435,6 @@ return  isLoaded ?(
             <button onClick={handleGetLocation}  type="button" className="btn btn-success">Use my current position as origin</button>
             <button onClick={swapAddress}  type="button" className="btn btn-success">Swap Address</button>
             <button onClick={handleSubmit}  type="button" className="btn btn-success">Submit</button>
-            <button onClick={clearRoute}  type="button" className="btn btn-success">Clear Route</button>
             {showInfo && 
                 <Info 
                     setShowInfo={setShowInfo}
@@ -442,7 +444,6 @@ return  isLoaded ?(
                     originStation={originStation}
                     destinationStation={destinationStation}
                     transitDistance={transitDistance}
-
                     transitDuration={ourPrediction}
                 />
 
