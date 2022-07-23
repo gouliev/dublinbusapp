@@ -1,5 +1,6 @@
 import React from 'react'
 import './Info.css'
+import Cookies from 'universal-cookie';
 
 export default function Info({ 
   setShowInfo, 
@@ -15,6 +16,8 @@ export default function Info({
     setShowInfo(false)
     clearRoute()
   }
+
+  
 
   return (
       <div className="card">

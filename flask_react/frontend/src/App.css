@@ -4,3 +4,7 @@
 .MapAndSearchBox{
     height:'calc(100vh-700px)';
 }
+
+.Modal{
+    display: none;
+}
