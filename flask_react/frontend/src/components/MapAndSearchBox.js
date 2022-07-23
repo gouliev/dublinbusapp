@@ -199,12 +199,22 @@ function getPrediction(results){
   //loop through each step to see if it is transit, if so add the values bus route name and station count to a list
   //Loop through the length of the steps 
   //if the travel mode is transit append that result to a list
+
+
+  // Initialize the prediction variable.
+  // var predictionFloat=0
+  var predictionFloat=0
   for(var i=0; i<results.routes[0].legs[0].steps.length; i++){
     var travelMode = results.routes[0].legs[0].steps[i].travel_mode
     if(travelMode=="TRANSIT"){
       busRouteList.push(results.routes[0].legs[0].steps[i].transit.line.short_name)
       busStationList.push(results.routes[0].legs[0].steps[i].transit.num_stops)
       busDirectionList.push(results.routes[0].legs[0].steps[i].transit.headsign)
+    }
+    else if(travelMode=="WALKING"){
+      var walkTime = results.routes[0].legs[0].steps[i].duration.text
+      //gets string, cuts off before "mins" and turns to int, then turns into seconds
+      predictionFloat += parseInt(walkTime.substring(0,walkTime.indexOf("min")-1))*60
     }
   }
   console.log("Routes:", busRouteList)
@@ -215,9 +225,8 @@ function getPrediction(results){
     console.log(datedate)
     console.log(datedate.getHours())
   console.log("Directions:", busDirectionList)
-  // Initialize the prediction variable.
-  var predictionFloat=0
   //set prediction to zero 
+  
   setOurPrediction(0)
   //loop through the length of the list for the given and request from API 
   for(var i=0; i<busRouteList.length; i++){
