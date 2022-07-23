@@ -1,6 +1,5 @@
 import React from 'react'
 import './Info.css'
-import Cookies from 'universal-cookie';
 
 export default function Info({ 
   setShowInfo, 

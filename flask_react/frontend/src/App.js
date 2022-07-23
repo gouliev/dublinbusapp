@@ -2,12 +2,12 @@ import React from 'react'
 import './App.css';
 import MapAndSearchBox from './components/MapAndSearchBox';
 import Weather from './components/Weather';
-import Modal from './components/Modal';
+import ModalFunction from './components/ModalCookie';
 function App() {
   return (
     <div className="App">
       <div className='Modal'>
-      <Modal/>
+      <ModalFunction/>
       </div>
       <div className='topSide'>
         <Weather/>
