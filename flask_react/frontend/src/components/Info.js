@@ -16,6 +16,8 @@ export default function Info({
     clearRoute()
   }
 
+  
+
   return (
       <div className="card">
         <ul className="list-group list-group-flush">
