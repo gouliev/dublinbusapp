@@ -2,7 +2,7 @@ import React from 'react'
 import './App.css';
 import MapAndSearchBox from './components/MapAndSearchBox';
 import Weather from './components/Weather';
-import Modal from './components/Weather';
+import Modal from './components/Modal';
 function App() {
   return (
     <div className="App">

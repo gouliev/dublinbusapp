@@ -2,9 +2,19 @@ import React from 'react'
 import {useEffect } from "react";
 import Cookies from 'universal-cookie';
 
-useEffect(()=>{
+export default function Modal(){    
     console.log("called")
     const cookies = new Cookies();
-    cookies.set('myCat', 'Pacman', { path: '/' });
-    console.log(cookies.get('myCat')); // Pacman    
-    }, [])
+
+    const cookieValue = cookies.get('FirstUse')
+    if(cookieValue == 'Yes'){
+        console.log(true)
+    }else{
+        console.log(false)
+    }
+
+    return(
+        null
+    )
+}
+    
