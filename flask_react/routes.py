@@ -12,8 +12,8 @@ def directionConverter(route, direction):
     return "1"
 
 #this route will be used to access the JSON data.
-@app.route("/busRoute/<route>/<direction>/<stations>/<day>/<month>/<hour>")
-def busPrediction(route, direction, day, month, hour, stations):
+@app.route("/busRoute/<iterator>/<route>/<direction>/<stations>/<day>/<month>/<hour>")
+def busPrediction(iterator, route, direction, day, month, hour, stations):
     direction = directionConverter(route, direction)
-    timePrediction = prediction(day=day, hour=hour, month=month, numberOfStations=stations, route=route, direction=direction).jsonPrediction()
+    timePrediction = prediction(day=day, hour=hour, month=month, numberOfStations=stations, route=route, direction=direction, iterator=iterator).jsonPrediction()
     return jsonify(timePrediction)

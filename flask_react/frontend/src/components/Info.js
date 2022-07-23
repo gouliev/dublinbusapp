@@ -25,9 +25,9 @@ export default function Info({
           <li className="list-group-item"><h3>Transit distance is: {transitDistance}</h3> </li>
           <li className="list-group-item"> <h2>Google time is: {duration}</h2></li>
           <li className="list-group-item"> <h2>Our time is: {Math.trunc(transitDuration/60) > 0? Math.trunc(transitDuration/60)+" hour":null}
-                                                                {Math.trunc(transitDuration/60) > 1? "s ":" "} 
+                                                                {Math.trunc(transitDuration/60) > 1? "s ":" "}
                                                                 {transitDuration%60 > 0? transitDuration%60+" min":null} 
-                                                                {transitDuration%60 > 1? "s":null}</h2></li>
+                                                                {transitDuration%60 > 1? "s":null}</h2></li> {/* //only show plural if needed */}
         </ul>
         <div className="card-footer">
           <button onClick={handleCloseAndClearMap} type="button" className="btn btn-danger">Cear Route</button>
