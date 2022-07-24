@@ -139,6 +139,7 @@ const [duration, setDuration] = useState('')
 const [originStation, setOriginStation] = useState('')
 const [transitDistance, setTransitDistance] = useState('')
 const [transitDuration, setTransitDuration] = useState('')
+const [waitTime, setWaitTime] = useState('')
 
 const { changeMode, mode } = useTheme()
 const [style, setStyle] = useState([])
@@ -212,6 +213,7 @@ function getPrediction(results){
 
   for(var i=0; i<results.routes[0].legs[0].steps.length; i++){
     var travelMode = results.routes[0].legs[0].steps[i].travel_mode
+    setWaitTime(parseInt((results.routes[0].legs[0].departure_time.value - datedate)/(60*1000)))
     if(travelMode=="TRANSIT"){
       var route = results.routes[0].legs[0].steps[i].transit.line.short_name
       busRouteList.push(route)
@@ -236,7 +238,6 @@ function getPrediction(results){
           //turn to minutes
           var predictionMinutes = predictionFloat/60;
           //apeend to current prediction
-          console.log(ourPrediction)
           var predictionAdded = ourPrediction + predictionMinutes;
           //set value
           setOurPrediction(parseInt(predictionAdded));
@@ -458,6 +459,7 @@ return  isLoaded ?(
                     destinationStation={destinationStation}
                     transitDistance={transitDistance}
                     transitDuration={ourPrediction}
+                    waitTime={waitTime}
                 />
 
             }
