@@ -140,6 +140,7 @@ const [duration, setDuration] = useState('')
 const [originStation, setOriginStation] = useState('')
 const [transitDistance, setTransitDistance] = useState('')
 const [transitDuration, setTransitDuration] = useState('')
+const [waitTime, setWaitTime] = useState('')
 
 const { changeMode, mode } = useTheme()
 const [style, setStyle] = useState([])
@@ -201,56 +202,69 @@ function getPrediction(results){
   //loop through each step to see if it is transit, if so add the values bus route name and station count to a list
   //Loop through the length of the steps 
   //if the travel mode is transit append that result to a list
+
+  const datedate = new Date(haha.current)
+    console.log(Date(haha.current))
+    console.log(datedate)
+    console.log(datedate.getHours())
+
+  // Initialize the prediction variable.
+  // var predictionFloat=0
+  var predictionFloat=0
+  setOurPrediction(0)
+
   for(var i=0; i<results.routes[0].legs[0].steps.length; i++){
     var travelMode = results.routes[0].legs[0].steps[i].travel_mode
+    setWaitTime(parseInt((results.routes[0].legs[0].departure_time.value - datedate)/(60*1000)))
     if(travelMode=="TRANSIT"){
-      busRouteList.push(results.routes[0].legs[0].steps[i].transit.line.short_name)
-      busStationList.push(results.routes[0].legs[0].steps[i].transit.num_stops)
-      busDirectionList.push(results.routes[0].legs[0].steps[i].transit.headsign)
+      var route = results.routes[0].legs[0].steps[i].transit.line.short_name
+      busRouteList.push(route)
+      var stops = results.routes[0].legs[0].steps[i].transit.num_stops
+      busStationList.push(stops)
+      var headsign = results.routes[0].legs[0].steps[i].transit.headsign
+      busDirectionList.push(headsign)
+      const url = "http://127.0.0.1:5000/busRoute/"+ i +"/"+ route +"/"+ headsign +"/"+ stops +"/"+ (datedate.getMonth()+1) +"/"+ (datedate.getDay()+6)%7 +"/"+ datedate.getHours();
+      console.log(url);
+      fetch(url).then(res => res.json()).then((prediction) => {
+          console.log(prediction);
+          var j = prediction.i;
+          if(prediction.travel_time == 'Route Not Supported'){
+            console.log(j);
+            predictionFloat += results.routes[0].legs[0].steps[j].duration.value;
+          }
+          else{
+            //add the time
+            predictionFloat += parseInt(prediction.travel_time);
+          }
+          console.log(predictionFloat);
+          //turn to minutes
+          var predictionMinutes = predictionFloat/60;
+          //apeend to current prediction
+          var predictionAdded = ourPrediction + predictionMinutes;
+          //set value
+          setOurPrediction(parseInt(predictionAdded));
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+    }
+    else if(travelMode=="WALKING"){
+      var walkTime = results.routes[0].legs[0].steps[i].duration.text
+      //gets string, cuts off before "mins" and turns to int, then turns into seconds
+      predictionFloat += parseInt(walkTime.substring(0,walkTime.indexOf("min")-1))*60
     }
   }
   console.log("Routes:", busRouteList)
   console.log("no.Stations:", busStationList)
   console.log("Directions:", busDirectionList)
-  const datedate = new Date(haha.current)
-    console.log(Date(haha.current))
-    console.log(datedate)
-    console.log(datedate.getHours())
-  console.log("Directions:", busDirectionList)
-  // Initialize the prediction variable.
-  var predictionFloat=0
   //set prediction to zero 
-  setOurPrediction(0)
-  //loop through the length of the list for the given and request from API 
-  for(var i=0; i<busRouteList.length; i++){
-    //this URL will be changed based on user input
-    const url = "http://127.0.0.1:5000/busRoute/" + busRouteList[i] +"/"+ busDirectionList[i] +"/"+ busStationList[i]  + "/" + (datedate.getMonth()+1) + "/" + (datedate.getDay()+6)%7 + "/" + datedate.getHours()
-    console.log(url)
-    fetch(url)
-    .then(res => res.json())
-    .then(
-      (prediction) => {
-        console.log(prediction)
-        //add the time
-        predictionFloat += parseInt(prediction.travel_time)
-        //turn to minutes
-        var predictionMinutes = predictionFloat/60
-        //apeend to current prediction
-        var predictionAdded = ourPrediction + predictionMinutes
-        //set value
-        setOurPrediction(parseInt(predictionAdded))
-      },
-      // Note: it's important to handle errors here
-      // instead of a catch() block so that we don't swallow
-      // exceptions from actual bugs in components.
-      (error) => {
-        this.setState({
-          isLoaded: true,
-          error
-        });
-      }
-    )
-  }
 }
 
 function clearRoute(){
@@ -447,6 +461,7 @@ return  isLoaded ?(
                     destinationStation={destinationStation}
                     transitDistance={transitDistance}
                     transitDuration={ourPrediction}
+                    waitTime={waitTime}
                 />
 
             }

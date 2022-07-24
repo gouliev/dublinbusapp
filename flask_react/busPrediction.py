@@ -14,6 +14,7 @@ class prediction():
         self.month = int(kwargs["month"])
         self.numberOfStations = int(kwargs["numberOfStations"])+1 #added 1 as progrnumber from 1, not 0
         self.data = {'progrnumber':[self.numberOfStations], 'day':[0], 'month':[0], 'hour':[0]}
+        self.i = int(kwargs['iterator'])
     
     #The user will insert the time and date they wish to travel at. Where they are leaving from and going.
     #Data cleaning will follow the head of the modelTrainerTesting. It has one issue being the inclusion of Index.
@@ -53,6 +54,6 @@ class prediction():
     def jsonPrediction(self):
         travelPrediction = self._getPrediction()
         travelTime = travelPrediction
-        returnData = {'bus_route': self.route, 'direction':self.direction, 'travel_time':travelTime}
+        returnData = {'bus_route': self.route, 'direction':self.direction, 'travel_time':travelTime, 'i':self.i}
         return returnData
         
