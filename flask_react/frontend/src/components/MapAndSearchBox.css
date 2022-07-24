@@ -58,6 +58,9 @@
     
   }
 
+  .SearchBox .btn:hover{
+    background: #42A6F0;
+  }
 
 .input1.dark{
   color: black;
