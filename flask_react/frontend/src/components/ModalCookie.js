@@ -12,9 +12,8 @@ export default function ModalFunction(){
     const handleClose = () => setShow(false);
     const cookieValue = cookies.get('AfterFirstUse')
     if(cookieValue == 'Yes'){
-        console.log(true)
+      return(null);
     }else{
-        console.log(false)
         //un comment this to get the no show to work.
         //cookies.set('AfterFirstUse', 'Yes', { path: '/' });
         //console.log(cookies.get('myCat')); 
@@ -22,15 +21,16 @@ export default function ModalFunction(){
             <> 
               <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                  <Modal.Title>Modal heading</Modal.Title>
+                  <Modal.Title>How To Use Our Dublin Bus Application!</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Body>This message will display once, only on your first time using this application. Below is a Gif showing how to use it.</Modal.Body>
+                <Modal.Body>Gif Showing Use</Modal.Body>
+                <Modal.Body>To use this properly, you must insert your origin location, or use your current location and your destination.You can insert the day
+                  and time you wish to travel at. If you do not, we will use the current day and time ! To use the service again, clear the route and go again. 
+                </Modal.Body>
                 <Modal.Footer>
                   <Button variant="secondary" onClick={handleClose}>
                     Close
-                  </Button>
-                  <Button variant="primary" onClick={handleClose}>
-                    Save Changes
                   </Button>
                 </Modal.Footer>
               </Modal>
