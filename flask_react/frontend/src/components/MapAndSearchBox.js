@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react'
-import Cookies from 'universal-cookie';
 import { useState, useRef, useEffect } from 'react';
 import { 
     GoogleMap, 
