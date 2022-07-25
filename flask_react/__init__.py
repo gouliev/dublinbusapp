@@ -27,6 +27,4 @@ app.config['SQLALCHEMY_DATABASE_URI'] = post
 #initialize db inside of sqlalchemy
 db=SQLAlchemy(app)
 
-value=
-
 from flask_react import routes

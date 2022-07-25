@@ -12,12 +12,15 @@ class Weather(db.Model):
     def insertData():
         #delete the current row
         Weather.query.delete()
-        apiURL = 'http://dataservice.accuweather.com/currentconditions/v1/rD2vGykJdSF2ohlaBf7Iycdz8kUFrk79&q=dublin'
+        apiURL = 'http://dataservice.accuweather.com/currentconditions/v1/207931?apikey=rD2vGykJdSF2ohlaBf7Iycdz8kUFrk79'
         response = requests.get(apiURL)
+        response = response.json()
+        print(response)
         weatherText = response[0]['WeatherText']
         weatherMetric = response[0]['Temperature']['Metric']['Value']
         weatherIcon = response[0]['WeatherIcon']
         weatherTime = response[0]['IsDayTime']
+        print("issue here")
         weather = Weather(weatherText=weatherText, weatherMetric=weatherMetric, weatherIcon=weatherIcon, weatherTime=weatherTime)
         db.session.add(weather)
         db.session.commit()
