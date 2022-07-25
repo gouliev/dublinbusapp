@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import Cookies from 'universal-cookie';
 import { useState, useRef, useEffect } from 'react';
 import { 
     GoogleMap, 
@@ -186,15 +187,14 @@ async function calculateRoute() {
         setDirectionsResponse(results)
         setDistance(results.routes[0].legs[0].distance.text)
         setDuration(results.routes[0].legs[0].duration.text)
-        setOriginStation(results.routes[0].legs[0].steps[1].transit.departure_stop.name)
-        setDestinationStation(results.routes[0].legs[0].steps[1].transit.arrival_stop.name)
-        setTransitDistance(results.routes[0].legs[0].steps[1].distance.text)
-        setTransitDuration(results.routes[0].legs[0].steps[1].duration.text)
+        setOriginStation(results.routes[0].legs[0].start_address)
+        setDestinationStation(results.routes[0].legs[0].end_address)
         //Cookies are set and overwritten here.
-        cookies.set('LastOrigin', results.routes[0].legs[0].steps[1].transit.departure_stop.name, { path: '/' });
-        cookies.set('LastDestination', results.routes[0].legs[0].steps[1].transit.arrival_stop.name, { path: '/' });
+        cookies.set('LastOrigin', results.routes[0].legs[0].start_address, { path: '/' });
+        cookies.set('LastDestination', results.routes[0].legs[0].end_address, { path: '/' });
         console.log(cookies.get('LastOrigin'))
         console.log(cookies.get('LastDestination'))
+        console.log(transitDistance);
 }
 
 //function which calls our API currently set to manual time and day
@@ -217,12 +217,14 @@ function getPrediction(results){
   // Initialize the prediction variable.
   // var predictionFloat=0
   var predictionFloat=0
+  var totalTransitDistance = 0;
   setOurPrediction(0)
 
   for(var i=0; i<results.routes[0].legs[0].steps.length; i++){
     var travelMode = results.routes[0].legs[0].steps[i].travel_mode
     setWaitTime(parseInt((results.routes[0].legs[0].departure_time.value - datedate)/(60*1000)))
-    if(travelMode=="TRANSIT"){
+    if(travelMode==="TRANSIT"){
+      totalTransitDistance += results.routes[0].legs[0].steps[i].distance.value;
       var route = results.routes[0].legs[0].steps[i].transit.line.short_name
       busRouteList.push(route)
       var stops = results.routes[0].legs[0].steps[i].transit.num_stops
@@ -261,7 +263,7 @@ function getPrediction(results){
         }
       )
     }
-    else if(travelMode=="WALKING"){
+    else if(travelMode==="WALKING"){
       var walkTime = results.routes[0].legs[0].steps[i].duration.text
       //gets string, cuts off before "mins" and turns to int, then turns into seconds
       predictionFloat += parseInt(walkTime.substring(0,walkTime.indexOf("min")-1))*60
@@ -270,7 +272,8 @@ function getPrediction(results){
   console.log("Routes:", busRouteList)
   console.log("no.Stations:", busStationList)
   console.log("Directions:", busDirectionList)
-  //set prediction to zero 
+  totalTransitDistance = (Math.round(totalTransitDistance/100) / 10).toFixed(1) + " km";
+  setTransitDistance(totalTransitDistance);
 }
 
 function clearRoute(){
