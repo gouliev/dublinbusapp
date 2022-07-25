@@ -159,6 +159,8 @@ const destinationRef = useRef()
 const dateRef = useRef()
 const timeRef = useRef()
 const haha = useRef()
+//initialize the cookies
+const cookies = new Cookies();
 
 async function calculateRoute() {
     
@@ -188,6 +190,11 @@ async function calculateRoute() {
         setDestinationStation(results.routes[0].legs[0].steps[1].transit.arrival_stop.name)
         setTransitDistance(results.routes[0].legs[0].steps[1].distance.text)
         setTransitDuration(results.routes[0].legs[0].steps[1].duration.text)
+        //Cookies are set and overwritten here.
+        cookies.set('LastOrigin', results.routes[0].legs[0].steps[1].transit.departure_stop.name, { path: '/' });
+        cookies.set('LastDestination', results.routes[0].legs[0].steps[1].transit.arrival_stop.name, { path: '/' });
+        console.log(cookies.get('LastOrigin'))
+        console.log(cookies.get('LastDestination'))
 }
 
 //function which calls our API currently set to manual time and day
