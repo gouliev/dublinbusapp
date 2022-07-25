@@ -3,10 +3,11 @@ from flask_restful import Api, Resource, reqparse
 from flask_cors import CORS #comment this on deployment
 #This API handler May Not Be Needed
 from flask_react.config import Config
-#This is for the configuration settings
+#This is for the configuration settings 
 import configparser
 #SQLAlchemy must be kept in a global environment
 from flask_sqlalchemy import SQLAlchemy
+#import the inserter
 
 #load in the values from the config file
 config=configparser.ConfigParser()
@@ -26,5 +27,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = post
 #initialize db inside of sqlalchemy
 db=SQLAlchemy(app)
 
+value=
 
 from flask_react import routes

@@ -1,8 +1,6 @@
 import pandas as pd
 import pickle
 import os
-import sklearn
-import sys
 
 #class for producing prediction based results.
 class prediction():
