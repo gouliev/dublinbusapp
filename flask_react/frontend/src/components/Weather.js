@@ -22,23 +22,24 @@ export default function Weather() {
 
 
 
-    const fetchCity = useCallback (async () => {
+    /*const fetchCity = useCallback (async () => {
       const response = await fetch(cityURL + `?apikey=${key}&q=dublin`)
       const json = await response.json()
       setCityDets(json[0])
-    },[cityURL])
+      console.log(json)
+    },[cityURL])*/
 //newyork :349727
 //dublin 207931
     const fetchWeather = useCallback (async () => {
       const response = await fetch(weatherURL + `207931?apikey=${key}`)
       const json = await response.json()
       setWeather(json[0])
-
+      console.log(json)
     },[weatherURL])
 
-    useEffect(() => {
-      fetchCity()
-    },[fetchCity])
+    //useEffect(() => {
+    //  fetchCity()
+    //},[fetchCity])
   
 
     useEffect(() => {

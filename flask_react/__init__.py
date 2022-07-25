@@ -14,7 +14,7 @@ config.read('flask_react/config/config.ini')
 key=config.get('oracles','key')
 post=config.get('oracles', 'post')
 
-app = Flask(__name__, static_url_path='', static_folder='frontend/public')
+app = Flask(__name__, static_url_path='')
 app.config.from_object(Config)
 CORS(app) #comment this on deployment
 api = Api(app)
