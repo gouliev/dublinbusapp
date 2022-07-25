@@ -294,7 +294,25 @@ function clearRoute(){
     
 }
 
+function loadLastRoute(){
+  if (cookies.get('LastOrigin') && cookies.get('LastDestination')){
+    console.log('cookies exist!');
+  }
+}
 
+function currentDateFormatted(){
+    let date = new Date();
+    let mm = (date.getMonth() + 1).toString();
+    let dd = date.getDate().toString();
+    let yyyy = date.getFullYear().toString();
+    if (mm.length < 2) {
+      mm = '0' + mm;
+    }
+    if (dd.length < 2) {
+      dd = '0' + dd;
+    }
+    return yyyy+"-"+mm+"-"+dd;
+}
 
 // const [autocomplete, setAutocomplete] = useState(null)
 
@@ -306,11 +324,17 @@ const resetForm = () => {
 }
 
 const handleSubmit = (e) => {
-  if(useButton==true){
+  if(useButton===true){
     e.preventDefault()
     setShowRoute(true)
     setShowInfo(true)
     map.panTo(center)
+    if (!dateRef.current.value){
+      dateRef.current.value = currentDateFormatted();
+    }
+    if (!timeRef.current.value){
+      timeRef.current.value = (new Date()).toTimeString().substring(0,5);
+    }
     const tempDateTime = dateRef.current.value + ' ' + timeRef.current.value 
     //we use this
     haha.current = tempDateTime
@@ -477,3 +501,5 @@ return  isLoaded ?(
     </div>
   ):<></>
 }
+
+
