@@ -9,7 +9,7 @@ while True:
         currentTime = datetime.now()
         hour = currentTime.minute
         try:
-            if hour % 30 == 0:
+            if hour % 55 == 0:
                 Weather.insertData()
                 print("Done")
 
