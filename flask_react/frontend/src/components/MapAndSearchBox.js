@@ -190,11 +190,10 @@ async function calculateRoute() {
         setOriginStation(results.routes[0].legs[0].start_address)
         setDestinationStation(results.routes[0].legs[0].end_address)
         //Cookies are set and overwritten here.
-        cookies.set('LastOrigin', results.routes[0].legs[0].start_address, { path: '/' });
-        cookies.set('LastDestination', results.routes[0].legs[0].end_address, { path: '/' });
+        cookies.set('LastOrigin', results.routes[0].legs[0].start_address, { path: '/', maxAge: 31556926 }); //set cookies to expire (in a year) or else they're not kept
+        cookies.set('LastDestination', results.routes[0].legs[0].end_address, { path: '/', maxAge: 31556926 });
         console.log(cookies.get('LastOrigin'))
         console.log(cookies.get('LastDestination'))
-        console.log(transitDistance);
 }
 
 //function which calls our API currently set to manual time and day
