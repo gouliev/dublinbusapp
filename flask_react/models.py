@@ -9,6 +9,7 @@ class Weather(db.Model):
     weatherIcon=db.Column(db.Integer, nullable=False)
     weatherTime = db.Column(db.Boolean, nullable=False)
 
+    @staticmethod
     def insertData():
         #delete the current row
         Weather.query.delete()
