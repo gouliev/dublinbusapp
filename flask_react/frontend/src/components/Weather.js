@@ -4,9 +4,10 @@ import { useTheme } from "../hooks/useTheme";
 
 
 export default function Weather() {
-    const [key,setKey] = useState('rD2vGykJdSF2ohlaBf7Iycdz8kUFrk79');
-    const [weatherURL,setWeatherURL] = useState('http://dataservice.accuweather.com/currentconditions/v1/');
-    const [cityURL, setCityURL] = useState('http://dataservice.accuweather.com/locations/v1/cities/search');
+    //not needed
+    //const [key,setKey] = useState('rD2vGykJdSF2ohlaBf7Iycdz8kUFrk79');
+    //const [weatherURL,setWeatherURL] = useState('http://dataservice.accuweather.com/currentconditions/v1/');
+    //const [cityURL, setCityURL] = useState('http://dataservice.accuweather.com/locations/v1/cities/search');
     const [cityQuery, setCityQuery] = useState('')
     const [weatherQuery, setWeatherQuery] = useState('')
     const [cityDets,setCityDets] = useState([])
@@ -22,23 +23,25 @@ export default function Weather() {
 
 
 
-    const fetchCity = useCallback (async () => {
+    /*const fetchCity = useCallback (async () => {
       const response = await fetch(cityURL + `?apikey=${key}&q=dublin`)
       const json = await response.json()
       setCityDets(json[0])
-    },[cityURL])
+      console.log(json)
+    },[cityURL])*/
 //newyork :349727
 //dublin 207931
     const fetchWeather = useCallback (async () => {
-      const response = await fetch(weatherURL + `207931?apikey=${key}`)
+      //const response = await fetch(weatherURL + `207931?apikey=${key}`)
+      const response = await fetch('http://127.0.0.1:5000/weather')
       const json = await response.json()
-      setWeather(json[0])
+      setWeather(json)
+      console.log(json)
+    },['http://127.0.0.1:5000/weather'])
 
-    },[weatherURL])
-
-    useEffect(() => {
-      fetchCity()
-    },[fetchCity])
+    //useEffect(() => {
+    //  fetchCity()
+    //},[fetchCity])
   
 
     useEffect(() => {
@@ -47,7 +50,7 @@ export default function Weather() {
     
     setTimeout(() => {
       setWeatherText(weather.WeatherText)
-      setTemperature(weather.Temperature.Metric.Value)
+      setTemperature(weather.weatherMetric)
       setWeatherIcon(`img2/icons/${weather.WeatherIcon}.svg`)
       weather.IsDayTime ? setDayOrNight(true) : setDayOrNight(false)
     },2000);

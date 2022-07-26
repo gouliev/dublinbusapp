@@ -1,0 +1,6 @@
+.topSide{
+    height:70px;
+}
+.MapAndSearchBox{
+    height:'calc(100vh-700px)';
+}

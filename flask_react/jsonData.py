@@ -1,8 +1,10 @@
+#import the db
+from flask_react import db
+#import the weather model 
+from flask_react.models import Weather
 import pandas as pd
 import pickle
 import os
-import sklearn
-import sys
 
 #class for producing prediction based results.
 class prediction():
@@ -12,8 +14,9 @@ class prediction():
         self.day = int(kwargs["day"])
         self.hour = int(kwargs["hour"])
         self.month = int(kwargs["month"])
-        self.numberOfStations = kwargs["numberOfStations"]
+        self.numberOfStations = int(kwargs["numberOfStations"])+1 #added 1 as progrnumber from 1, not 0
         self.data = {'progrnumber':[self.numberOfStations], 'day':[0], 'month':[0], 'hour':[0]}
+        self.i = int(kwargs['iterator'])
     
     #The user will insert the time and date they wish to travel at. Where they are leaving from and going.
     #Data cleaning will follow the head of the modelTrainerTesting. It has one issue being the inclusion of Index.
@@ -53,6 +56,23 @@ class prediction():
     def jsonPrediction(self):
         travelPrediction = self._getPrediction()
         travelTime = travelPrediction
-        returnData = {'bus_route': self.route, 'direction':self.direction, 'travel_time':travelTime}
+        returnData = {'bus_route': self.route, 'direction':self.direction, 'travel_time':travelTime, 'i':self.i}
         return returnData
         
+class weatherAPI():
+    def __init__(self, **kwargs):
+        self.value = {}
+        self.data = ''
+    
+    def __accessData(self):
+        self.data = Weather.query.first()
+    
+    def jsonWeather(self):
+        self.__accessData()
+        weather = self.data
+        self.value['WeatherText'] = weather.weatherText
+        self.value['weatherMetric'] = weather.weatherMetric
+        self.value['WeatherIcon'] = weather.weatherIcon
+        self.value['IsDayTime'] = weather.weatherTime
+        print(self.value)
+        return self.value
