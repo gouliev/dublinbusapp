@@ -127,6 +127,7 @@ Geocode.setLocationType("ROOFTOP")
 
 export default function MapAndSearchBox() {
 //searchBox
+const [firstLoad, setFirstLoad] = useState(true);
 const [destinationStation, setDestinationStation] = useState('')
 const [showRoute, setShowRoute] = useState(false)
 
@@ -164,10 +165,17 @@ const haha = useRef()
 const cookies = new Cookies();
 
 async function calculateRoute() {
-    
+    if (firstLoad &&cookies.get('LastOrigin')&&cookies.get('LastDestination')){
+      originRef.current.value = cookies.get('LastOrigin');
+      destinationRef.current.value = cookies.get('LastDestination');
+    } else {
+      setFirstLoad(false) 
+    }
     if(originRef.current.value === '' || destinationRef.current.value === ''){
+        setUseButton(true);
         return
     }
+    setShowInfo(true)
     // eslint-disable-next-line no-undef
     const directionsService = new google.maps.DirectionsService()
     const results = await directionsService.route({
@@ -194,6 +202,7 @@ async function calculateRoute() {
         cookies.set('LastDestination', results.routes[0].legs[0].end_address, { path: '/', maxAge: 31556926 });
         console.log(cookies.get('LastOrigin'))
         console.log(cookies.get('LastDestination'))
+        setFirstLoad(false);
 }
 
 //function which calls our API currently set to manual time and day
@@ -294,12 +303,6 @@ function clearRoute(){
     
 }
 
-function loadLastRoute(){
-  if (cookies.get('LastOrigin') && cookies.get('LastDestination')){
-    console.log('cookies exist!');
-  }
-}
-
 function currentDateFormatted(){
     let date = new Date();
     let mm = (date.getMonth() + 1).toString();
@@ -327,21 +330,21 @@ const handleSubmit = (e) => {
   if(useButton===true){
     e.preventDefault()
     setShowRoute(true)
-    setShowInfo(true)
+    // setShowInfo(true)
     map.panTo(center)
-    if (!dateRef.current.value){
+    if (!dateRef.current.value){ //if date not chosen
       dateRef.current.value = currentDateFormatted();
     }
-    if (!timeRef.current.value){
+    if (!timeRef.current.value){ //if time not chosen
       timeRef.current.value = (new Date()).toTimeString().substring(0,5);
     }
     const tempDateTime = dateRef.current.value + ' ' + timeRef.current.value 
     //we use this
     haha.current = tempDateTime
     setDateTime(tempDateTime)
+    setUseButton(false)
     calculateRoute()
     resetForm()
-    setUseButton(false)
   }
 }
 
@@ -372,8 +375,6 @@ const handleGetLocation = () => {
   )
 }
 
-
-
 //map
 const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -387,7 +388,7 @@ const onLoad = React.useCallback(function callback(map) {
     setMap(map)
     }, [])
 
-    const onUnmount = React.useCallback(function callback(map) {
+const onUnmount = React.useCallback(function callback(map) {
     setMap(null)
     }, [])
 
@@ -482,7 +483,7 @@ return  isLoaded ?(
                 </div>
             <button onClick={handleGetLocation}  type="button" className="btn btn-success">Use my current position as origin</button>
             <button onClick={swapAddress}  type="button" className="btn btn-success">Swap Address</button>
-            <button onClick={handleSubmit}  type="button" className="btn btn-success">Submit</button>
+            <button onClick={handleSubmit}  type="button" className="btn btn-success" id="submit">Submit</button>
             {showInfo && 
                 <Info 
                     setShowInfo={setShowInfo}
@@ -497,9 +498,8 @@ return  isLoaded ?(
                 />
 
             }
+            
         </form>
     </div>
   ):<></>
 }
-
-
