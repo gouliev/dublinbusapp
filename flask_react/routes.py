@@ -1,6 +1,6 @@
 from flask import jsonify
 from flask_react import app
-from flask_react.busPrediction import prediction
+from flask_react.jsonData import prediction, weatherAPI
 import json
 
 with open('flask_react/models/directions.json', 'r') as f:
@@ -17,3 +17,8 @@ def busPrediction(iterator, route, direction, day, month, hour, stations):
     direction = directionConverter(route, direction)
     timePrediction = prediction(day=day, hour=hour, month=month, numberOfStations=stations, route=route, direction=direction, iterator=iterator).jsonPrediction()
     return jsonify(timePrediction)
+
+@app.route("/weather")
+def weather():
+    weatherCurrent = weatherAPI().jsonWeather()
+    return weatherCurrent

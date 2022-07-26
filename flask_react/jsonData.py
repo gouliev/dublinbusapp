@@ -1,8 +1,10 @@
+#import the db
+from flask_react import db
+#import the weather model 
+from flask_react.models import Weather
 import pandas as pd
 import pickle
 import os
-import sklearn
-import sys
 
 #class for producing prediction based results.
 class prediction():
@@ -57,3 +59,20 @@ class prediction():
         returnData = {'bus_route': self.route, 'direction':self.direction, 'travel_time':travelTime, 'i':self.i}
         return returnData
         
+class weatherAPI():
+    def __init__(self, **kwargs):
+        self.value = {}
+        self.data = ''
+    
+    def __accessData(self):
+        self.data = Weather.query.first()
+    
+    def jsonWeather(self):
+        self.__accessData()
+        weather = self.data
+        self.value['WeatherText'] = weather.weatherText
+        self.value['weatherMetric'] = weather.weatherMetric
+        self.value['WeatherIcon'] = weather.weatherIcon
+        self.value['IsDayTime'] = weather.weatherTime
+        print(self.value)
+        return self.value
