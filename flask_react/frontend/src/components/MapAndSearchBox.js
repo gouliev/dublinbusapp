@@ -303,6 +303,13 @@ function clearRoute(){
     
 }
 
+function favRoute(){
+  if (cookies.get('LastOrigin') & cookies.get('LastDestination')){
+    cookies.set('FavOrigin', cookies.get('LastOrigin'), { path: '/', maxAge: 31556926 }); //set cookies to expire (in a year) or else they're not kept
+    cookies.set('FavDestination', cookies.get('LastDestination'), { path: '/', maxAge: 31556926 });
+  }
+}
+
 function currentDateFormatted(){
     let date = new Date();
     let mm = (date.getMonth() + 1).toString();
