@@ -11,7 +11,7 @@ export default function ModalFunction(){
     const [show, setShow] = useState(true);
     const handleClose = () => setShow(false);
     const cookieValue = cookies.get('AfterFirstUse')
-    if(cookieValue == 'Yes'){
+    if(cookieValue === 'Yes'){
       return(null);
     }else{
         //un comment this to get the no show to work.
@@ -38,8 +38,8 @@ export default function ModalFunction(){
           );
     }
 
-    return(
-        null
-    )
+    // return(
+    //     null
+    // )
 }
     

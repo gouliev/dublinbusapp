@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import Cookies from 'universal-cookie';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef} from 'react';
 import { 
     GoogleMap, 
     useJsApiLoader, 
@@ -20,8 +20,8 @@ import './MapAndSearchBox.css'
 import modeIcon from '../assets/mode-icon.svg'
 
 import { useTheme } from '../hooks/useTheme';
-import { roundToNearestMinutesWithOptions } from 'date-fns/fp';
-import { setDay, setMonth } from 'date-fns';
+// import { roundToNearestMinutesWithOptions } from 'date-fns/fp';
+// import { setDay, setMonth } from 'date-fns';
 
 const exampleMapStyles = 
     [
@@ -148,7 +148,7 @@ const [style, setStyle] = useState([])
 
 const [coordinate,setCoordinate] = useState(center)
 
-const [dateTime, setDateTime] = useState('')
+// const [dateTime, setDateTime] = useState('')
 
 const [ourPrediction, setOurPrediction] = useState(0)
 const [useButton, setUseButton] = useState(true)
@@ -200,8 +200,8 @@ async function calculateRoute() {
         //Cookies are set and overwritten here.
         cookies.set('LastOrigin', results.routes[0].legs[0].start_address, { path: '/', maxAge: 31556926 }); //set cookies to expire (in a year) or else they're not kept
         cookies.set('LastDestination', results.routes[0].legs[0].end_address, { path: '/', maxAge: 31556926 });
-        console.log(cookies.get('LastOrigin'))
-        console.log(cookies.get('LastDestination'))
+        console.log(cookies.get('LastOrigin'));
+        console.log(cookies.get('LastDestination'));
         setFirstLoad(false);
 }
 
@@ -244,7 +244,7 @@ function getPrediction(results){
       fetch(url).then(res => res.json()).then((prediction) => {
           console.log(prediction);
           var j = prediction.i;
-          if(prediction.travel_time == 'Route Not Supported'){
+          if(prediction.travel_time === 'Route Not Supported'){
             console.log(j);
             predictionFloat += results.routes[0].legs[0].steps[j].duration.value;
           }
@@ -341,7 +341,7 @@ const handleSubmit = (e) => {
     const tempDateTime = dateRef.current.value + ' ' + timeRef.current.value 
     //we use this
     haha.current = tempDateTime
-    setDateTime(tempDateTime)
+    // setDateTime(tempDateTime)
     setUseButton(false)
     calculateRoute()
     resetForm()
@@ -384,7 +384,7 @@ const { isLoaded } = useJsApiLoader({
 })
 
 const onLoad = React.useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds(center);
+    // const bounds = new window.google.maps.LatLngBounds(center);
     setMap(map)
     }, [])
 
@@ -398,7 +398,7 @@ if(!isLoaded){
 
 const toggleMode = () => {
   changeMode(mode === 'dark' ? 'light' : 'dark')
-  if(mode == 'light'){
+  if(mode === 'light'){
     setStyle(exampleMapStyles)
   }else{
     setStyle([])
