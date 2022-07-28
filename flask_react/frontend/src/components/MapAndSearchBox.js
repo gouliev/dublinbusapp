@@ -150,8 +150,7 @@ const [coordinate,setCoordinate] = useState(center)
 
 // const [dateTime, setDateTime] = useState('')
 
-const [ourPrediction, setOurPrediction] = useState(0)
-const [resetPred, setResetPred] = useState(false);
+const [ourPrediction, setOurPrediction] = useState(0);
 const [useButton, setUseButton] = useState(true)
 var favInUse = false;
 
@@ -258,9 +257,6 @@ async function getPrediction(results){
             //add the time
             preds.push(parseInt(prediction.travel_time));
           }
-          //convert to minutes, append and set value
-
-          // setOurPrediction(parseInt(ourPrediction+(predictionFloat/60)));
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -302,7 +298,6 @@ function clearRoute(){
     setShowRoute(false)
     setDirectionsResponse(null)
     setShowInfo(false);
-    setOurPrediction(0)
     setDistance('')
     setDuration('')
     setOriginStation('')
@@ -360,24 +355,11 @@ const handleSubmit = (e) => {
     if (!timeRef.current.value){ //if time not chosen
       timeRef.current.value = (new Date()).toTimeString().substring(0,5);
     }
-    const tempDateTime = dateRef.current.value + ' ' + timeRef.current.value 
-    //we use this
-    haha.current = tempDateTime
-    // setUseButton(false) 
-    setResetPred(true);
+    haha.current = dateRef.current.value + ' ' + timeRef.current.value
     calculateRoute()
     resetForm()
   }
 }
-
-useEffect(() => {
-  console.log('in useEffect');
-  if (resetPred){
-    console.log('in useEffect If')
-    setOurPrediction(0);
-    setResetPred(false);
-  }
-  }, [resetPred, ourPrediction]);
 
 const swapAddress = () => {
     const tempAddress = originRef.current.value
