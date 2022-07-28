@@ -160,7 +160,9 @@ const originRef = useRef()
 const destinationRef = useRef()
 //depaturetime
 const dateRef = useRef()
+var curDate;
 const timeRef = useRef()
+var curTime;
 const haha = useRef()
 //initialize the cookies
 const cookies = new Cookies();
@@ -179,7 +181,7 @@ async function calculateRoute() {
       favInUse = false;
     }
     if(originRef.current.value === '' || destinationRef.current.value === ''){
-        clearRoute();
+        // clearRoute();
         return
     }
     // eslint-disable-next-line no-undef
@@ -204,7 +206,7 @@ async function calculateRoute() {
         setDistance(results.routes[0].legs[0].distance.text)
         setDuration(results.routes[0].legs[0].duration.text)
         setOriginStation(results.routes[0].legs[0].start_address)
-        setDestinationStation(results.routes[0].legs[0].end_address)        
+        setDestinationStation(results.routes[0].legs[0].end_address)
         setShowInfo(true)
         //Cookies are set and overwritten here.
         cookies.set('LastOrigin', results.routes[0].legs[0].start_address, { path: '/', maxAge: 31556926 }); //set cookies to expire (in a year) or else they're not kept
@@ -352,9 +354,11 @@ const handleSubmit = (e) => {
     if (!dateRef.current.value){ //if date not chosen
       dateRef.current.value = currentDateFormatted();
     }
+    curDate = dateRef.current.value;
     if (!timeRef.current.value){ //if time not chosen
       timeRef.current.value = (new Date()).toTimeString().substring(0,5);
     }
+    curTime = timeRef.current.value;
     haha.current = dateRef.current.value + ' ' + timeRef.current.value
     calculateRoute()
     resetForm()
@@ -362,9 +366,18 @@ const handleSubmit = (e) => {
 }
 
 const swapAddress = () => {
+  if (originRef.current.value === '' && destinationRef.current.value === ''){
+    originRef.current.value = destinationStation;
+    destinationRef.current.value = originStation;
+    dateRef.current.value = haha.current.substring(0,10);
+    timeRef.current.value = haha.current.substring(11);
+    document.getElementById('submit').click();
+  } 
+  else{
     const tempAddress = originRef.current.value
     originRef.current.value = destinationRef.current.value
     destinationRef.current.value = tempAddress
+  }
 }
 
 const handleGetLocation = () => {
