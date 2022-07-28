@@ -10,8 +10,6 @@
 .card button{
     background-color: rgb(242, 90, 90);
     max-width: 440px;
-    display: table;
-   
     position: relative;
     left: 0px;
     margin-left: 50%;

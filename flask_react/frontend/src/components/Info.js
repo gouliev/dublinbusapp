@@ -1,5 +1,6 @@
 import React from 'react'
 import './Info.css'
+import Cookies from 'universal-cookie';
 
 export default function Info({ 
   setShowInfo, 
@@ -16,8 +17,16 @@ export default function Info({
     setShowInfo(false)
     clearRoute()
   }
-
   
+  //initialize the cookies
+  const cookies = new Cookies();
+
+  function favRoute(){
+    if (cookies.get('LastOrigin') && cookies.get('LastDestination')){
+      cookies.set('FavOrigin', cookies.get('LastOrigin'), { path: '/', maxAge: 31556926 }); //expire in a year
+      cookies.set('FavDestination', cookies.get('LastDestination'), { path: '/', maxAge: 31556926 });
+    } 
+  }
 
   return (
       <div className="card">
@@ -33,7 +42,9 @@ export default function Info({
                                                                 {transitDuration%60 > 0? transitDuration%60+" min":null} 
                                                                 {transitDuration%60 > 1? "s":null}</p></li> {/* //only show plural if needed */}
         </ul>
-        <div className="card-footer">
+        <div className="card-footer btn-group">
+          
+          <button onClick={favRoute}  type="button" className="btn btn-info" data-toggle="button" aria-pressed="false" autocomplete="off">Set as favourite</button>
           <button onClick={handleCloseAndClearMap} type="button" className="btn btn-danger">Clear Route</button>
         </div>
     </div> 

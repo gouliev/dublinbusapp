@@ -152,6 +152,7 @@ const [coordinate,setCoordinate] = useState(center)
 
 const [ourPrediction, setOurPrediction] = useState(0)
 const [useButton, setUseButton] = useState(true)
+const [favInUse, setFavInUse] = useState(false)
 
 /** @type React.MutableRefobject<HTMLInputElement> */ 
 const originRef = useRef()
@@ -170,6 +171,11 @@ async function calculateRoute() {
       destinationRef.current.value = cookies.get('LastDestination');
     } else {
       setFirstLoad(false) 
+    }
+    if (favInUse){      
+      originRef.current.value = cookies.get('FavOrigin');
+      destinationRef.current.value = cookies.get('FavDestination');
+      setFavInUse(false)
     }
     if(originRef.current.value === '' || destinationRef.current.value === ''){
         setUseButton(true);
@@ -303,11 +309,9 @@ function clearRoute(){
     
 }
 
-function favRoute(){
-  if (cookies.get('LastOrigin') & cookies.get('LastDestination')){
-    cookies.set('FavOrigin', cookies.get('LastOrigin'), { path: '/', maxAge: 31556926 }); //set cookies to expire (in a year) or else they're not kept
-    cookies.set('FavDestination', cookies.get('LastDestination'), { path: '/', maxAge: 31556926 });
-  }
+function useFav(){
+  setFavInUse(true);
+  document.getElementById('submit').click();  
 }
 
 function currentDateFormatted(){
@@ -490,7 +494,10 @@ return  isLoaded ?(
                 </div>
             <button onClick={handleGetLocation}  type="button" className="btn btn-success">Use my current position as origin</button>
             <button onClick={swapAddress}  type="button" className="btn btn-success">Swap Address</button>
+            <div class='btn-group' id='favClearBtn'>
+            <button onClick={useFav}  type="button" className="btn btn-success" aria-disabled='true'>Use favourite</button>
             <button onClick={handleSubmit}  type="button" className="btn btn-success" id="submit">Submit</button>
+            </div>
             {showInfo && 
                 <Info 
                     setShowInfo={setShowInfo}

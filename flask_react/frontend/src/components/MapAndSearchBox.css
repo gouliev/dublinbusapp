@@ -45,6 +45,21 @@
     background: #128FED;
   }
 
+  .SearchBox #favClearBtn{
+    /* display: block; */
+    /* text-align:center; */
+    width: 500px;
+    /* margin: 5px auto; */
+    /* padding: 5px; */
+    /* box-sizing: border-box; */
+    font-size: 1.2em;
+    /* position: relative; */
+    float:none;
+    /* right: 150px; */
+    color: black;
+    /* background: #128FED; */
+  }
+
   .input1{
     display: block;
     text-align: left;
