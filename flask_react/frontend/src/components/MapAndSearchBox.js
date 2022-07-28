@@ -1,6 +1,6 @@
 import React from 'react'
 import Cookies from 'universal-cookie';
-import { useState, useRef} from 'react';
+import { useState, useRef, useEffect} from 'react';
 import { 
     GoogleMap, 
     useJsApiLoader, 
@@ -151,8 +151,9 @@ const [coordinate,setCoordinate] = useState(center)
 // const [dateTime, setDateTime] = useState('')
 
 const [ourPrediction, setOurPrediction] = useState(0)
+const [resetPred, setResetPred] = useState(false);
 const [useButton, setUseButton] = useState(true)
-const [favInUse, setFavInUse] = useState(false)
+var favInUse = false;
 
 /** @type React.MutableRefobject<HTMLInputElement> */ 
 const originRef = useRef()
@@ -166,22 +167,22 @@ const haha = useRef()
 const cookies = new Cookies();
 
 async function calculateRoute() {
-    if (firstLoad &&cookies.get('LastOrigin')&&cookies.get('LastDestination')){
+    if (firstLoad && cookies.get('LastOrigin') &&cookies.get('LastDestination')){
       originRef.current.value = cookies.get('LastOrigin');
       destinationRef.current.value = cookies.get('LastDestination');
+      console.log('here')
     } else {
       setFirstLoad(false) 
     }
-    if (favInUse){      
+    if (favInUse){  
       originRef.current.value = cookies.get('FavOrigin');
       destinationRef.current.value = cookies.get('FavDestination');
-      setFavInUse(false)
+      favInUse = false;
     }
     if(originRef.current.value === '' || destinationRef.current.value === ''){
-        setUseButton(true);
+        clearRoute();
         return
     }
-    setShowInfo(true)
     // eslint-disable-next-line no-undef
     const directionsService = new google.maps.DirectionsService()
     const results = await directionsService.route({
@@ -195,14 +196,17 @@ async function calculateRoute() {
           departureTime: new Date(haha.current)   
         }
     })
-    getPrediction(results)
+    let preds = await getPrediction(results)
     // console.log(results)
     //这里面所有数据都是routes数组中的
+    console.log(preds);
+        setOurPrediction(preds);
         setDirectionsResponse(results)
         setDistance(results.routes[0].legs[0].distance.text)
         setDuration(results.routes[0].legs[0].duration.text)
         setOriginStation(results.routes[0].legs[0].start_address)
-        setDestinationStation(results.routes[0].legs[0].end_address)
+        setDestinationStation(results.routes[0].legs[0].end_address)        
+        setShowInfo(true)
         //Cookies are set and overwritten here.
         cookies.set('LastOrigin', results.routes[0].legs[0].start_address, { path: '/', maxAge: 31556926 }); //set cookies to expire (in a year) or else they're not kept
         cookies.set('LastDestination', results.routes[0].legs[0].end_address, { path: '/', maxAge: 31556926 });
@@ -213,7 +217,8 @@ async function calculateRoute() {
 
 //function which calls our API currently set to manual time and day
 //Takes in the API from Google as a parameter
-function getPrediction(results){
+async function getPrediction(results){  
+  let preds = [];
   console.log("Here: ", results)
   //initialize the bus route list and bus station list
   var busRouteList = []
@@ -228,11 +233,7 @@ function getPrediction(results){
     console.log(datedate)
     console.log(datedate.getHours())
 
-  // Initialize the prediction variable.
-  // var predictionFloat=0
-  var predictionFloat=0
   var totalTransitDistance = 0;
-  setOurPrediction(0)
 
   for(var i=0; i<results.routes[0].legs[0].steps.length; i++){
     var travelMode = results.routes[0].legs[0].steps[i].travel_mode
@@ -247,24 +248,19 @@ function getPrediction(results){
       busDirectionList.push(headsign)
       const url = "http://127.0.0.1:5000/busRoute/"+ i +"/"+ route +"/"+ headsign +"/"+ stops +"/"+ (datedate.getMonth()+1) +"/"+ (datedate.getDay()+6)%7 +"/"+ datedate.getHours();
       console.log(url);
-      fetch(url).then(res => res.json()).then((prediction) => {
+      await apiCall(url).then(prediction => {
           console.log(prediction);
           var j = prediction.i;
           if(prediction.travel_time === 'Route Not Supported'){
-            console.log(j);
-            predictionFloat += results.routes[0].legs[0].steps[j].duration.value;
+            preds.push(results.routes[0].legs[0].steps[j].duration.value);
           }
           else{
             //add the time
-            predictionFloat += parseInt(prediction.travel_time);
+            preds.push(parseInt(prediction.travel_time));
           }
-          console.log(predictionFloat);
-          //turn to minutes
-          var predictionMinutes = predictionFloat/60;
-          //apeend to current prediction
-          var predictionAdded = ourPrediction + predictionMinutes;
-          //set value
-          setOurPrediction(parseInt(predictionAdded));
+          //convert to minutes, append and set value
+
+          // setOurPrediction(parseInt(ourPrediction+(predictionFloat/60)));
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -278,9 +274,7 @@ function getPrediction(results){
       )
     }
     else if(travelMode==="WALKING"){
-      var walkTime = results.routes[0].legs[0].steps[i].duration.text
-      //gets string, cuts off before "mins" and turns to int, then turns into seconds
-      predictionFloat += parseInt(walkTime.substring(0,walkTime.indexOf("min")-1))*60
+      preds.push(results.routes[0].legs[0].steps[i].duration.value);
     }
   }
   console.log("Routes:", busRouteList)
@@ -288,11 +282,26 @@ function getPrediction(results){
   console.log("Directions:", busDirectionList)
   totalTransitDistance = (Math.round(totalTransitDistance/100) / 10).toFixed(1) + " km";
   setTransitDistance(totalTransitDistance);
+
+  console.log(preds, ourPrediction);
+  let sumPreds = 0;
+  for(let k=0;k < preds.length;k++){
+    sumPreds += preds[k];
+  }
+  console.log(parseInt(sumPreds/60))
+  return parseInt(sumPreds/60);
+}
+
+async function apiCall(url){
+  let res = await fetch(url);
+  let prediction =await res.json();
+  return prediction;
 }
 
 function clearRoute(){
     setShowRoute(false)
     setDirectionsResponse(null)
+    setShowInfo(false);
     setOurPrediction(0)
     setDistance('')
     setDuration('')
@@ -310,7 +319,7 @@ function clearRoute(){
 }
 
 function useFav(){
-  setFavInUse(true);
+  favInUse = true;
   document.getElementById('submit').click();  
 }
 
@@ -339,10 +348,12 @@ const resetForm = () => {
 
 const handleSubmit = (e) => {
   if(useButton===true){
+    console.log('in handlesubmit')
     e.preventDefault()
     setShowRoute(true)
-    // setShowInfo(true)
-    map.panTo(center)
+    if (firstLoad){
+      map.panTo(center);
+    }
     if (!dateRef.current.value){ //if date not chosen
       dateRef.current.value = currentDateFormatted();
     }
@@ -352,12 +363,21 @@ const handleSubmit = (e) => {
     const tempDateTime = dateRef.current.value + ' ' + timeRef.current.value 
     //we use this
     haha.current = tempDateTime
-    // setDateTime(tempDateTime)
-    setUseButton(false)
+    // setUseButton(false) 
+    setResetPred(true);
     calculateRoute()
     resetForm()
   }
 }
+
+useEffect(() => {
+  console.log('in useEffect');
+  if (resetPred){
+    console.log('in useEffect If')
+    setOurPrediction(0);
+    setResetPred(false);
+  }
+  }, [resetPred, ourPrediction]);
 
 const swapAddress = () => {
     const tempAddress = originRef.current.value

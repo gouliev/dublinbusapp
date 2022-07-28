@@ -45,7 +45,7 @@ export default function Info({
         <div className="card-footer btn-group">
           
           <button onClick={favRoute}  type="button" className="btn btn-info" data-toggle="button" aria-pressed="false" autocomplete="off">Set as favourite</button>
-          <button onClick={handleCloseAndClearMap} type="button" className="btn btn-danger">Clear Route</button>
+          <button onClick={handleCloseAndClearMap} type="button" className="btn btn-danger">Close</button>
         </div>
     </div> 
   )
