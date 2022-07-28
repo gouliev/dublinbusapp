@@ -440,6 +440,7 @@ return  isLoaded ?(
         </div>
         
         <form className={`SearchBox`} onSubmit={handleSubmit}>
+        <div className={`SearchBoxDiv`}>
         <img 
             src={modeIcon} 
             onClick={toggleMode} 
@@ -450,10 +451,9 @@ return  isLoaded ?(
             <div>
                 <Autocomplete>
                     <input 
-                        className={`input1 form-control form-control-lg inputOrigin ${mode}`}
+                        className={`input1 form-control form-control inputOrigin ${mode}`}
                         placeholder="Origin" 
                         aria-label=".form-control-lg example"
-                        style={{width:'100%',display:'flex', float:'left'}}
                         type="text" 
                         ref={originRef}
                         required
@@ -463,7 +463,7 @@ return  isLoaded ?(
                 <div>
                 <Autocomplete>
                     <input 
-                        className={`input1 form-control form-control-lg inputDestination ${mode}`}
+                        className={`input1 form-control form-control inputDestination ${mode}`}
                         placeholder="Destination" 
                         aria-label=".form-control-lg example"
                         type="text" 
@@ -471,10 +471,10 @@ return  isLoaded ?(
                     />
                 </Autocomplete>
                 </div>
-                <div  style={{float: 'left', display: 'flex', width: '100%'}}>
+                <div className={'timeDate'}>
                     <label >
                             <input 
-                                className={`input1 inputDate form-control form-control-lg ${mode}`}
+                                className={`input1 inputDate form-control form-control b ${mode}`}
                                 placeholder="Month:XX" 
                                 aria-label=".form-control-lg example"
                                 type="date" 
@@ -484,7 +484,7 @@ return  isLoaded ?(
                     </label>
                     <label >
                             <input 
-                                className={`input1 inputDate form-control form-control-lg ${mode}`}
+                                className={`input1 inputDate form-control form-control a ${mode}`}
                                 placeholder="Day:XX" 
                                 aria-label=".form-control-lg example"
                                 type="time" 
@@ -492,12 +492,12 @@ return  isLoaded ?(
                                 required
                             />
                     </label>
-                  
                 </div>
+              </div>
             <button onClick={handleGetLocation}  type="button" className="btn btn-success">Use my current position as origin</button>
             <button onClick={swapAddress}  type="button" className="btn btn-success">Swap Address</button>
             <div class='btn-group' id='favClearBtn'>
-            <button onClick={useFav}  type="button" className="btn btn-success" aria-disabled='true'>Use favourite</button>
+            <button onClick={useFav}  type="button" className="btn btn-success" id='pleaseWork' aria-disabled='true'>Use favourite</button>
             <button onClick={handleSubmit}  type="button" className="btn btn-success" id="submit">Submit</button>
             </div>
             {showInfo && 
@@ -514,7 +514,6 @@ return  isLoaded ?(
                 />
 
             }
-            
         </form>
     </div>
   ):<></>
