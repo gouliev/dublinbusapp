@@ -20,8 +20,6 @@ import './MapAndSearchBox.css'
 import modeIcon from '../assets/mode-icon.svg'
 
 import { useTheme } from '../hooks/useTheme';
-// import { roundToNearestMinutesWithOptions } from 'date-fns/fp';
-// import { setDay, setMonth } from 'date-fns';
 
 const exampleMapStyles = 
     [
@@ -148,8 +146,6 @@ const [style, setStyle] = useState([])
 
 const [coordinate,setCoordinate] = useState(center)
 
-// const [dateTime, setDateTime] = useState('')
-
 const [ourPrediction, setOurPrediction] = useState(0);
 const [useButton, setUseButton] = useState(true)
 var favInUse = false;
@@ -160,9 +156,7 @@ const originRef = useRef()
 const destinationRef = useRef()
 //depaturetime
 const dateRef = useRef()
-var curDate;
 const timeRef = useRef()
-var curTime;
 const haha = useRef()
 //initialize the cookies
 const cookies = new Cookies();
@@ -181,7 +175,6 @@ async function calculateRoute() {
       favInUse = false;
     }
     if(originRef.current.value === '' || destinationRef.current.value === ''){
-        // clearRoute();
         return
     }
     // eslint-disable-next-line no-undef
@@ -198,7 +191,6 @@ async function calculateRoute() {
         }
     })
     let preds = await getPrediction(results)
-    // console.log(results)
     //这里面所有数据都是routes数组中的
     console.log(preds);
         setOurPrediction(preds);
@@ -216,18 +208,17 @@ async function calculateRoute() {
         setFirstLoad(false);
 }
 
-//function which calls our API currently set to manual time and day
+//function which calls our API
 //Takes in the API from Google as a parameter
 async function getPrediction(results){  
   let preds = [];
   console.log("Here: ", results)
-  //initialize the bus route list and bus station list
+  //initialize the bus route list and bus station list for console.log purposes
   var busRouteList = []
   var busStationList = []
   var busDirectionList = []
-  //loop through each step to see if it is transit, if so add the values bus route name and station count to a list
+  //loop through each step to see if it is transit, if so call the API
   //Loop through the length of the steps 
-  //if the travel mode is transit append that result to a list
 
   const datedate = new Date(haha.current)
     console.log(Date(haha.current))
@@ -281,6 +272,7 @@ async function getPrediction(results){
   totalTransitDistance = (Math.round(totalTransitDistance/100) / 10).toFixed(1) + " km";
   setTransitDistance(totalTransitDistance);
 
+  //loop over prediction array and sum
   console.log(preds, ourPrediction);
   let sumPreds = 0;
   for(let k=0;k < preds.length;k++){
@@ -334,8 +326,6 @@ function currentDateFormatted(){
     return yyyy+"-"+mm+"-"+dd;
 }
 
-// const [autocomplete, setAutocomplete] = useState(null)
-
 const resetForm = () => {
     originRef.current.value = ''
     destinationRef.current.value = ''
@@ -354,11 +344,9 @@ const handleSubmit = (e) => {
     if (!dateRef.current.value){ //if date not chosen
       dateRef.current.value = currentDateFormatted();
     }
-    curDate = dateRef.current.value;
     if (!timeRef.current.value){ //if time not chosen
       timeRef.current.value = (new Date()).toTimeString().substring(0,5);
     }
-    curTime = timeRef.current.value;
     haha.current = dateRef.current.value + ' ' + timeRef.current.value
     calculateRoute()
     resetForm()
@@ -410,7 +398,6 @@ const { isLoaded } = useJsApiLoader({
 })
 
 const onLoad = React.useCallback(function callback(map) {
-    // const bounds = new window.google.maps.LatLngBounds(center);
     setMap(map)
     }, [])
 
