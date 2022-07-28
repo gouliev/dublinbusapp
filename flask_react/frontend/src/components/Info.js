@@ -15,7 +15,7 @@ export default function Info({
 }) {
   const handleCloseAndClearMap = () => {
     setShowInfo(false)
-    clearRoute()
+    //clearRoute()
   }
   
   //initialize the cookies

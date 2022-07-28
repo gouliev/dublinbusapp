@@ -4,3 +4,14 @@
 .MapAndSearchBox{
     height:'calc(100vh-700px)';
 }
+
+@media only screen and (max-device-width: 920px) {
+    .topSide{
+        width: auto;
+    }
+
+    .MapAndSearchBox{
+        height:'calc(100vh-700px)';
+    }
+    
+}

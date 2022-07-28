@@ -9,32 +9,17 @@
     position: relative;
     left: 200px;
     width: 500px;
-    top: 150px;
-  }
-  /* .SearchBox input{
-      display: block;
-      text-align: left;
-      width: 500px;
-      margin: 5px auto;
-      padding: 5px;
-      box-sizing: border-box;
-      font-size: 1.2em;
-      position: relative;
-      float:none;
-      right: 150px;
-      background: rgba(37, 204, 230, 0.2);
-  } */
-  
+    top: 110px;
+  }  
   .SearchBox input{
     background: rgba(37, 204, 230, 0.2);
-    
 }
 
   .SearchBox .btn{
     display: block;
     text-align:center;
     width: 500px;
-    margin: 5px auto;
+    margin: 2px auto;
     padding: 5px;
     box-sizing: border-box;
     font-size: 1.2em;
@@ -46,24 +31,16 @@
   }
 
   .SearchBox #favClearBtn{
-    /* display: block; */
-    /* text-align:center; */
     width: 500px;
-    /* margin: 5px auto; */
-    /* padding: 5px; */
-    /* box-sizing: border-box; */
     font-size: 1.2em;
-    /* position: relative; */
     float:none;
-    /* right: 150px; */
     color: black;
-    /* background: #128FED; */
   }
 
   .input1{
     display: block;
     text-align: left;
-    margin: 5px auto;
+    margin: 2px auto;
     padding: 5px;
     box-sizing: border-box;
     font-size: 1.2em;
@@ -88,6 +65,146 @@
   bottom: 20px;
 }
 .input1.inputDate{
-  padding-left: 104px;
+  padding-left: 119px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: large;
+  margin: 0px;
+}
+
+.timeDate{
+  float: 'left';
+  display: 'flex';
+  width: '100%';
+}
+
+@media only screen and (max-device-width: 500px) {
+  .SearchBox{
+    margin-left: -9%;
+    margin-right: 0px;
+    top: 27px;
+    width: 90%;
+  }
+
+  .SearchBox .btn{
+    text-align:center;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: smaller;
+    color: black;
+    background: #128FED;
+    margin-bottom: 0px;
+  }
+
+  .SearchBox #favClearBtn{
+    width: 100%;
+    font-size: smaller;
+    color: black;
+    margin-top: 0px;
+    height: 30px;
+  } 
+/*
+  #pushDown.btn{
+    margin-top: 10%;
+  }
+  */
+
+  #submit.btn{
+    margin-bottom: -2px;
+    padding-top: 5px;
+    padding-bottom: 4px;
+  }
+
+  #pleaseWork.btn{
+    margin-bottom: -2px;
+    padding-top: 5px;
+    padding-bottom: 4px;
+  }
+  .timeDate{
+    width: '100%';
+    text-align: center;
+  }
+  .input1.inputDate.a{
+    width: 117px;
+    margin-top: 2px;
+    display: inline-block;
+    padding-left: 0%;
+    margin-left: right;
+  }
   
+  .input1.inputDate.b{
+    width: 217px;
+    display: inline-block;
+    margin-left: auto;
+  }
+
+  .darkLight{
+    float: left;
+    position: relative;
+    right: -12%;
+    bottom: 20px;
+  }
+
+/*
+  .input1{
+    display: block;
+    text-align: left;
+    margin: auto;
+    padding: 0px;
+    box-sizing: border-box;
+    font-size: smaller;
+    float:none;
+  }
+
+  .SearchBox .btn:hover{
+    background: #42A6F0;
+  }
+
+  .input1.dark{
+  color: black;
+  background: white;
+}
+  .darkLight{
+  float: left;
+  position: relative;
+  right: -10%;
+  bottom: 20px;
+}
+
+.input1.form-control.inputOrigin{
+  padding-right: 20%;
+  margin-left: 1px;
+  background: #03070a;
+}
+.input1.form-control.inputDestination{
+  width: 90%;
+  margin-left: 1px;
+}
+.input1.inputDate{
+  padding-left: 20%;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: large;
+  margin-left: 1px;
+  margin-right: 0px;
+
+}
+.input1.inputDate{
+  padding-left: 20%;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: large;
+  margin-left: 1px;
+  margin-right: 0px;
+
+}
+.input1.inputDate.form-control{
+  width: 107%;
+}
+.input1.inputDate.form-control.a{
+  margin-left: 13%;
+  padding-right: -10%;
+}
+*/
+
 }

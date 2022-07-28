@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect, useCallback } from "react";
 import { useTheme } from "../hooks/useTheme";
+import './Weather.css'
 
 
 export default function Weather() {
@@ -59,20 +60,16 @@ export default function Weather() {
   return (
     <div>
        {dayOrNight && 
-          <nav className="navbar navbar-expand-lg bg-light">
+          <nav className="navbar navbar-expand bg-light">
             <img src={weatherIcon} alt="" width="70" height="70"/>
-
                 <div className="container-fluid">
-                  <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                      <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                  <div  id="navbarSupportedContent">
+                      <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="#">{weatherText}</a>
+                            <a className="nav-link" aria-current="page" href="#">{weatherText}</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">{temperature}℃</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="#">Welcome to The Beautiful Dublin</a>
+                            <a className="nav-link" href="#">{temperature}℃ in Dublin</a>
                         </li>
                       </ul>
                       {/* <form className="d-flex" role="search">
@@ -92,10 +89,7 @@ export default function Weather() {
                             <a className="nav-link active" aria-current="page" href="#">{weather.WeatherText}</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">{temperature}℃</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="#">Welcome to The Beautiful Dublin</a>
+                            <a className="nav-link" href="#">{temperature}℃ in Dublin</a>
                         </li>
                       </ul>
                       {/* <form className="d-flex text-white" role="search">
