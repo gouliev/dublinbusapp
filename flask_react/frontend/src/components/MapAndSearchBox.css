@@ -54,6 +54,19 @@
     background: #42A6F0;
   }
 
+  .SearchBox .btn:focus{
+    background: #0679d1;
+    color: white;
+  }
+
+  #submit.btn{
+    font-size: 1em;
+  }
+
+  #pleaseWork.btn{
+    font-size: 1em;
+  }
+
 .input1.dark{
   color: black;
   background: white;

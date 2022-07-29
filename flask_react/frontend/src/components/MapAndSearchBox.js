@@ -494,11 +494,11 @@ return  isLoaded ?(
                     </label>
                 </div>
               </div>
-            <button onClick={handleGetLocation}  type="button" className="btn btn-success" id="pushDown">Use my current position as origin</button>
-            <button onClick={swapAddress}  type="button" className="btn btn-success">Swap Address</button>
+            <button onClick={handleGetLocation}  type="button" className="btn" id="pushDown">Use my current position as origin</button>
+            <button onClick={swapAddress}  type="button" className="btn ">Swap Address</button>
             <div class='btn-group' id='favClearBtn'>
-            <button onClick={useFav}  type="button" className="btn btn-success" id='pleaseWork' aria-disabled='true'>Use favourite</button>
-            <button onClick={handleSubmit}  type="button" className="btn btn-success" id="submit">Submit</button>
+            <button onClick={useFav}  type="button" className="btn" id='pleaseWork' aria-disabled='true'>Use favourite</button>
+            <button onClick={handleSubmit}  type="button" className="btn" id="submit">Submit</button>
             </div>
             {showInfo && 
                 <Info 
