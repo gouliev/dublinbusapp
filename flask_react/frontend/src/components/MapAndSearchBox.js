@@ -21,89 +21,7 @@ import modeIcon from '../assets/mode-icon.svg'
 
 import { useTheme } from '../hooks/useTheme';
 
-const exampleMapStyles = 
-    [
-        { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-        { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-        { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-        {
-          featureType: "administrative.locality",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }]
-        },
-        {
-          featureType: "poi",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }]
-        },
-        {
-          featureType: "poi.park",
-          elementType: "geometry",
-          stylers: [{ color: "#263c3f" }]
-        },
-        {
-          featureType: "poi.park",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#6b9a76" }]
-        },
-        {
-          featureType: "road",
-          elementType: "geometry",
-          stylers: [{ color: "#38414e" }]
-        },
-        {
-          featureType: "road",
-          elementType: "geometry.stroke",
-          stylers: [{ color: "#212a37" }]
-        },
-        {
-          featureType: "road",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#9ca5b3" }]
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry",
-          stylers: [{ color: "#746855" }]
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry.stroke",
-          stylers: [{ color: "#1f2835" }]
-        },
-        {
-          featureType: "road.highway",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#f3d19c" }]
-        },
-        {
-          featureType: "transit",
-          elementType: "geometry",
-          stylers: [{ color: "#2f3948" }]
-        },
-        {
-          featureType: "transit.station",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }]
-        },
-        {
-          featureType: "water",
-          elementType: "geometry",
-          stylers: [{ color: "#17263c" }]
-        },
-        {
-          featureType: "water",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#515c6d" }]
-        },
-        {
-          featureType: "water",
-          elementType: "labels.text.stroke",
-          stylers: [{ color: "#17263c" }]
-        }
-      ]
-
-
+import { lightStyle, darkStyle } from '../context/styleArrays';
 
 const center = {
     lat: 53.349722,
@@ -119,9 +37,6 @@ Geocode.setApiKey("AIzaSyD7bAzj9B7jo2UGQaOfcJjZl-R7AtQ51so")
 Geocode.setLanguage("en")
 Geocode.setRegion("ie")
 Geocode.setLocationType("ROOFTOP")
-
-
-
 
 export default function MapAndSearchBox() {
 //searchBox
@@ -142,7 +57,6 @@ const [transitDuration, setTransitDuration] = useState('')
 const [waitTime, setWaitTime] = useState('')
 
 const { changeMode, mode } = useTheme()
-const [style, setStyle] = useState([])
 
 const [coordinate,setCoordinate] = useState(center)
 
@@ -160,6 +74,9 @@ const timeRef = useRef()
 const haha = useRef()
 //initialize the cookies
 const cookies = new Cookies();
+
+//use state function dark mode and light mode
+const [style, setStyle] = useState(lightStyle)
 
 async function calculateRoute() {
     if (firstLoad && cookies.get('LastOrigin') &&cookies.get('LastDestination')){
@@ -412,9 +329,9 @@ if(!isLoaded){
 const toggleMode = () => {
   changeMode(mode === 'dark' ? 'light' : 'dark')
   if(mode === 'light'){
-    setStyle(exampleMapStyles)
+    setStyle(darkStyle)
   }else{
-    setStyle([])
+    setStyle(lightStyle)
   }
 }
 
@@ -494,11 +411,11 @@ return  isLoaded ?(
                     </label>
                 </div>
               </div>
-            <button onClick={handleGetLocation}  type="button" className="btn btn-success" id="pushDown">Use my current position as origin</button>
-            <button onClick={swapAddress}  type="button" className="btn btn-success">Swap Address</button>
+            <button onClick={handleGetLocation}  type="button" className="btn" id="pushDown">Use my current position as origin</button>
+            <button onClick={swapAddress}  type="button" className="btn ">Swap Address</button>
             <div class='btn-group' id='favClearBtn'>
-            <button onClick={useFav}  type="button" className="btn btn-success" id='pleaseWork' aria-disabled='true'>Use favourite</button>
-            <button onClick={handleSubmit}  type="button" className="btn btn-success" id="submit">Submit</button>
+            <button onClick={useFav}  type="button" className="btn" id='pleaseWork' aria-disabled='true'>Use favourite</button>
+            <button onClick={handleSubmit}  type="button" className="btn" id="submit">Submit</button>
             </div>
             {showInfo && 
                 <Info 

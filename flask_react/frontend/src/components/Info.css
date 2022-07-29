@@ -26,3 +26,50 @@
     font-weight: bold;
     margin-left: 3px;
 }
+
+@media only screen and (max-device-width: 500px) {
+    .card{
+        border: 1px solid #eee;
+        box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.5);
+        padding: 0px;
+        max-width: 100%;
+        border-radius: 4px;
+        position: relative;
+        margin-top: 5px;
+    }
+    .card button{
+        background-color: rgb(242, 90, 90);
+        max-width: 100%;
+        position: relative;
+        left: 0px;
+        margin-left: 50%;
+        margin-right: 50%;
+    }
+    
+    .Header{
+        display: inline-block;
+        font-size: small;
+        padding: 0px;
+        margin-bottom: -20px;
+    }
+    
+    .Data{
+        display: inline-block;
+        font-weight: bold;
+        font-size: smaller ;
+        margin-left: 3px;
+        padding: 0px;
+        margin-bottom: 10px;
+        
+    }
+
+    .list-group-item{
+        margin-top: -20px;
+    }
+
+    
+    .list-group-item.a{
+        margin-top: 5px;
+        padding-top: 10px;
+    }
+}
