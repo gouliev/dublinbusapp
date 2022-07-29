@@ -2,6 +2,9 @@
 
 @media only screen and (max-device-width: 500px) {
 
-    
+    .fade.modal.show{
+        margin-top: 10%;
+        width: 100vw;
+    }
 
 }
