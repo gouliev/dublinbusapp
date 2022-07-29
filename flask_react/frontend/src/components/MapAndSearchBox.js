@@ -23,89 +23,7 @@ import { useTheme } from '../hooks/useTheme';
 // import { roundToNearestMinutesWithOptions } from 'date-fns/fp';
 // import { setDay, setMonth } from 'date-fns';
 
-const exampleMapStyles = 
-    [
-        { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-        { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-        { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-        {
-          featureType: "administrative.locality",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }]
-        },
-        {
-          featureType: "poi",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }]
-        },
-        {
-          featureType: "poi.park",
-          elementType: "geometry",
-          stylers: [{ color: "#263c3f" }]
-        },
-        {
-          featureType: "poi.park",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#6b9a76" }]
-        },
-        {
-          featureType: "road",
-          elementType: "geometry",
-          stylers: [{ color: "#38414e" }]
-        },
-        {
-          featureType: "road",
-          elementType: "geometry.stroke",
-          stylers: [{ color: "#212a37" }]
-        },
-        {
-          featureType: "road",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#9ca5b3" }]
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry",
-          stylers: [{ color: "#746855" }]
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry.stroke",
-          stylers: [{ color: "#1f2835" }]
-        },
-        {
-          featureType: "road.highway",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#f3d19c" }]
-        },
-        {
-          featureType: "transit",
-          elementType: "geometry",
-          stylers: [{ color: "#2f3948" }]
-        },
-        {
-          featureType: "transit.station",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }]
-        },
-        {
-          featureType: "water",
-          elementType: "geometry",
-          stylers: [{ color: "#17263c" }]
-        },
-        {
-          featureType: "water",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#515c6d" }]
-        },
-        {
-          featureType: "water",
-          elementType: "labels.text.stroke",
-          stylers: [{ color: "#17263c" }]
-        }
-      ]
-
-
+import { lightStyle, darkStyle } from '../context/styleArrays';
 
 const center = {
     lat: 53.349722,
@@ -121,9 +39,6 @@ Geocode.setApiKey("AIzaSyD7bAzj9B7jo2UGQaOfcJjZl-R7AtQ51so")
 Geocode.setLanguage("en")
 Geocode.setRegion("ie")
 Geocode.setLocationType("ROOFTOP")
-
-
-
 
 export default function MapAndSearchBox() {
 //searchBox
@@ -144,7 +59,6 @@ const [transitDuration, setTransitDuration] = useState('')
 const [waitTime, setWaitTime] = useState('')
 
 const { changeMode, mode } = useTheme()
-const [style, setStyle] = useState([])
 
 const [coordinate,setCoordinate] = useState(center)
 
@@ -164,6 +78,9 @@ const timeRef = useRef()
 const haha = useRef()
 //initialize the cookies
 const cookies = new Cookies();
+
+//use state function dark mode and light mode
+const [style, setStyle] = useState(lightStyle)
 
 async function calculateRoute() {
     if (firstLoad && cookies.get('LastOrigin') &&cookies.get('LastDestination')){
@@ -412,9 +329,9 @@ if(!isLoaded){
 const toggleMode = () => {
   changeMode(mode === 'dark' ? 'light' : 'dark')
   if(mode === 'light'){
-    setStyle(exampleMapStyles)
+    setStyle(darkStyle)
   }else{
-    setStyle([])
+    setStyle(lightStyle)
   }
 }
 
