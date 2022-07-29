@@ -31,7 +31,7 @@ export default function Info({
   return (
       <div className="card">
         <ul className="list-group list-group-flush">
-          <li className="list-group-item"><p className='Header'>Origin: </p><p className='Data'> {originStation}</p> </li>
+          <li className="list-group-item a"><p className='Header'>Origin: </p><p className='Data'> {originStation}</p> </li>
           <li className="list-group-item"><p className='Header'>Destination: </p><p className='Data'> {destinationStation}</p> </li>
           <li className="list-group-item"><p className='Header'>Transit/Total km: </p><p className='Data'> {transitDistance}/{distance}</p> </li>
           {/*I believe we should remove these items, fairly pointless, wil lcause spagfhetti code in other model */}
