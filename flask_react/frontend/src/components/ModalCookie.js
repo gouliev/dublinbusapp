@@ -12,13 +12,16 @@ export default function ModalFunction(){
     //https://react-bootstrap.github.io/components/modal/ this needs to be cited.
     const [show, setShow] = useState(true);
     const handleClose = () => setShow(false);
-    const cookieValue = cookies.get('AfterFirstUse')
-    if(cookieValue === 'Yes'){
+    const cookieValue = cookies.get('AfterFirstUse');
+    if(cookieValue !== 'firstRender'){
+      if (cookieValue !== 'Yes'){
+      cookies.set('AfterFirstUse', 'firstRender', { path: '/', maxAge: 31556926 });
+      }
       return(null);
     }else{
           //un comment this to get the no show to work.
-          //cookies.set('AfterFirstUse', 'Yes', { path: '/' });
-          //console.log(cookies.get('AfterFirstUse')); 
+          cookies.set('AfterFirstUse', 'Yes', { path: '/', maxAge: 31556926 });
+          // console.log(cookies.get('AfterFirstUse'));
         return (
             <> 
               <Modal show={show} onHide={handleClose}>
@@ -26,7 +29,7 @@ export default function ModalFunction(){
                   <Modal.Title>Instructions for Use!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>This message will display oonly once, so you better read it !</Modal.Body>
-                <Modal.Body><img src={tutorial} className="image"></img></Modal.Body>
+                <Modal.Body><img src={tutorial} className="image" alt='gif showing how to use'></img></Modal.Body>
                 <Modal.Body>To use this properly, you must insert your origin location, or use your current location and your destination.You can insert the day
                   and time you wish to travel at. Save and use your favorite route using the buttons. We will always load your last route. 
                 </Modal.Body>
