@@ -1,0 +1,12 @@
+@media only screen and (max-device-width: 920px) {
+    .nav-item{
+        font-size: small;
+        margin-left: 0px;
+        margin-left: 0px;
+    }
+
+    .nav-link{
+        margin-left: 0px;
+        margin-left: 0px;
+    }
+}

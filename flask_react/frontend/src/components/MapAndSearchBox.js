@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import Cookies from 'universal-cookie';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect} from 'react';
 import { 
     GoogleMap, 
     useJsApiLoader, 
@@ -20,92 +20,8 @@ import './MapAndSearchBox.css'
 import modeIcon from '../assets/mode-icon.svg'
 
 import { useTheme } from '../hooks/useTheme';
-import { roundToNearestMinutesWithOptions } from 'date-fns/fp';
-import { setDay, setMonth } from 'date-fns';
 
-const exampleMapStyles = 
-    [
-        { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-        { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-        { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-        {
-          featureType: "administrative.locality",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }]
-        },
-        {
-          featureType: "poi",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }]
-        },
-        {
-          featureType: "poi.park",
-          elementType: "geometry",
-          stylers: [{ color: "#263c3f" }]
-        },
-        {
-          featureType: "poi.park",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#6b9a76" }]
-        },
-        {
-          featureType: "road",
-          elementType: "geometry",
-          stylers: [{ color: "#38414e" }]
-        },
-        {
-          featureType: "road",
-          elementType: "geometry.stroke",
-          stylers: [{ color: "#212a37" }]
-        },
-        {
-          featureType: "road",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#9ca5b3" }]
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry",
-          stylers: [{ color: "#746855" }]
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry.stroke",
-          stylers: [{ color: "#1f2835" }]
-        },
-        {
-          featureType: "road.highway",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#f3d19c" }]
-        },
-        {
-          featureType: "transit",
-          elementType: "geometry",
-          stylers: [{ color: "#2f3948" }]
-        },
-        {
-          featureType: "transit.station",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }]
-        },
-        {
-          featureType: "water",
-          elementType: "geometry",
-          stylers: [{ color: "#17263c" }]
-        },
-        {
-          featureType: "water",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#515c6d" }]
-        },
-        {
-          featureType: "water",
-          elementType: "labels.text.stroke",
-          stylers: [{ color: "#17263c" }]
-        }
-      ]
-
-
+import { lightStyle, darkStyle } from '../context/styleArrays';
 
 const center = {
     lat: 53.349722,
@@ -121,9 +37,6 @@ Geocode.setApiKey("AIzaSyD7bAzj9B7jo2UGQaOfcJjZl-R7AtQ51so")
 Geocode.setLanguage("en")
 Geocode.setRegion("ie")
 Geocode.setLocationType("ROOFTOP")
-
-
-
 
 export default function MapAndSearchBox() {
 //searchBox
@@ -144,14 +57,12 @@ const [transitDuration, setTransitDuration] = useState('')
 const [waitTime, setWaitTime] = useState('')
 
 const { changeMode, mode } = useTheme()
-const [style, setStyle] = useState([])
 
 const [coordinate,setCoordinate] = useState(center)
 
-const [dateTime, setDateTime] = useState('')
-
-const [ourPrediction, setOurPrediction] = useState(0)
+const [ourPrediction, setOurPrediction] = useState(0);
 const [useButton, setUseButton] = useState(true)
+var favInUse = false;
 
 /** @type React.MutableRefobject<HTMLInputElement> */ 
 const originRef = useRef()
@@ -164,18 +75,29 @@ const haha = useRef()
 //initialize the cookies
 const cookies = new Cookies();
 
+//use state function dark mode and light mode
+const [style, setStyle] = useState(lightStyle)
+
+//use function for mode
+const [hideMode, setHideMode] = useState('dontshow')
+const [hideModeBtn, setHideModeBtn] = useState('Show')
+
 async function calculateRoute() {
-    if (firstLoad &&cookies.get('LastOrigin')&&cookies.get('LastDestination')){
+    if (firstLoad && cookies.get('LastOrigin') &&cookies.get('LastDestination')){
       originRef.current.value = cookies.get('LastOrigin');
       destinationRef.current.value = cookies.get('LastDestination');
+      console.log('here')
     } else {
       setFirstLoad(false) 
     }
+    if (favInUse){  
+      originRef.current.value = cookies.get('FavOrigin');
+      destinationRef.current.value = cookies.get('FavDestination');
+      favInUse = false;
+    }
     if(originRef.current.value === '' || destinationRef.current.value === ''){
-        setUseButton(true);
         return
     }
-    setShowInfo(true)
     // eslint-disable-next-line no-undef
     const directionsService = new google.maps.DirectionsService()
     const results = await directionsService.route({
@@ -189,44 +111,42 @@ async function calculateRoute() {
           departureTime: new Date(haha.current)   
         }
     })
-    getPrediction(results)
-    // console.log(results)
+    let preds = await getPrediction(results)
     //这里面所有数据都是routes数组中的
+    console.log(preds);
+        setOurPrediction(preds);
         setDirectionsResponse(results)
         setDistance(results.routes[0].legs[0].distance.text)
         setDuration(results.routes[0].legs[0].duration.text)
         setOriginStation(results.routes[0].legs[0].start_address)
         setDestinationStation(results.routes[0].legs[0].end_address)
+        setShowInfo(true)
         //Cookies are set and overwritten here.
         cookies.set('LastOrigin', results.routes[0].legs[0].start_address, { path: '/', maxAge: 31556926 }); //set cookies to expire (in a year) or else they're not kept
         cookies.set('LastDestination', results.routes[0].legs[0].end_address, { path: '/', maxAge: 31556926 });
-        console.log(cookies.get('LastOrigin'))
-        console.log(cookies.get('LastDestination'))
+        console.log(cookies.get('LastOrigin'));
+        console.log(cookies.get('LastDestination'));
         setFirstLoad(false);
 }
 
-//function which calls our API currently set to manual time and day
+//function which calls our API
 //Takes in the API from Google as a parameter
-function getPrediction(results){
+async function getPrediction(results){  
+  let preds = [];
   console.log("Here: ", results)
-  //initialize the bus route list and bus station list
+  //initialize the bus route list and bus station list for console.log purposes
   var busRouteList = []
   var busStationList = []
   var busDirectionList = []
-  //loop through each step to see if it is transit, if so add the values bus route name and station count to a list
+  //loop through each step to see if it is transit, if so call the API
   //Loop through the length of the steps 
-  //if the travel mode is transit append that result to a list
 
   const datedate = new Date(haha.current)
     console.log(Date(haha.current))
     console.log(datedate)
     console.log(datedate.getHours())
 
-  // Initialize the prediction variable.
-  // var predictionFloat=0
-  var predictionFloat=0
   var totalTransitDistance = 0;
-  setOurPrediction(0)
 
   for(var i=0; i<results.routes[0].legs[0].steps.length; i++){
     var travelMode = results.routes[0].legs[0].steps[i].travel_mode
@@ -241,24 +161,16 @@ function getPrediction(results){
       busDirectionList.push(headsign)
       const url = "http://127.0.0.1:5000/busRoute/"+ i +"/"+ route +"/"+ headsign +"/"+ stops +"/"+ (datedate.getMonth()+1) +"/"+ (datedate.getDay()+6)%7 +"/"+ datedate.getHours();
       console.log(url);
-      fetch(url).then(res => res.json()).then((prediction) => {
+      await apiCall(url).then(prediction => {
           console.log(prediction);
           var j = prediction.i;
-          if(prediction.travel_time == 'Route Not Supported'){
-            console.log(j);
-            predictionFloat += results.routes[0].legs[0].steps[j].duration.value;
+          if(prediction.travel_time === 'Route Not Supported'){
+            preds.push(results.routes[0].legs[0].steps[j].duration.value);
           }
           else{
             //add the time
-            predictionFloat += parseInt(prediction.travel_time);
+            preds.push(parseInt(prediction.travel_time));
           }
-          console.log(predictionFloat);
-          //turn to minutes
-          var predictionMinutes = predictionFloat/60;
-          //apeend to current prediction
-          var predictionAdded = ourPrediction + predictionMinutes;
-          //set value
-          setOurPrediction(parseInt(predictionAdded));
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -272,9 +184,7 @@ function getPrediction(results){
       )
     }
     else if(travelMode==="WALKING"){
-      var walkTime = results.routes[0].legs[0].steps[i].duration.text
-      //gets string, cuts off before "mins" and turns to int, then turns into seconds
-      predictionFloat += parseInt(walkTime.substring(0,walkTime.indexOf("min")-1))*60
+      preds.push(results.routes[0].legs[0].steps[i].duration.value);
     }
   }
   console.log("Routes:", busRouteList)
@@ -282,12 +192,27 @@ function getPrediction(results){
   console.log("Directions:", busDirectionList)
   totalTransitDistance = (Math.round(totalTransitDistance/100) / 10).toFixed(1) + " km";
   setTransitDistance(totalTransitDistance);
+
+  //loop over prediction array and sum
+  console.log(preds, ourPrediction);
+  let sumPreds = 0;
+  for(let k=0;k < preds.length;k++){
+    sumPreds += preds[k];
+  }
+  console.log(parseInt(sumPreds/60))
+  return parseInt(sumPreds/60);
+}
+
+async function apiCall(url){
+  let res = await fetch(url);
+  let prediction =await res.json();
+  return prediction;
 }
 
 function clearRoute(){
     setShowRoute(false)
     setDirectionsResponse(null)
-    setOurPrediction(0)
+    setShowInfo(false);
     setDistance('')
     setDuration('')
     setOriginStation('')
@@ -301,6 +226,11 @@ function clearRoute(){
     destinationRef.current.value = ''
     console.log([directionsResponse,distance,duration,originStation,destinationStation,transitDistance,transitDuration])
     
+}
+
+function useFav(){
+  favInUse = true;
+  document.getElementById('submit').click();  
 }
 
 function currentDateFormatted(){
@@ -317,8 +247,6 @@ function currentDateFormatted(){
     return yyyy+"-"+mm+"-"+dd;
 }
 
-// const [autocomplete, setAutocomplete] = useState(null)
-
 const resetForm = () => {
     originRef.current.value = ''
     destinationRef.current.value = ''
@@ -328,30 +256,37 @@ const resetForm = () => {
 
 const handleSubmit = (e) => {
   if(useButton===true){
+    console.log('in handlesubmit')
     e.preventDefault()
     setShowRoute(true)
-    // setShowInfo(true)
-    map.panTo(center)
+    if (firstLoad){
+      map.panTo(center);
+    }
     if (!dateRef.current.value){ //if date not chosen
       dateRef.current.value = currentDateFormatted();
     }
     if (!timeRef.current.value){ //if time not chosen
       timeRef.current.value = (new Date()).toTimeString().substring(0,5);
     }
-    const tempDateTime = dateRef.current.value + ' ' + timeRef.current.value 
-    //we use this
-    haha.current = tempDateTime
-    setDateTime(tempDateTime)
-    setUseButton(false)
+    haha.current = dateRef.current.value + ' ' + timeRef.current.value
     calculateRoute()
     resetForm()
   }
 }
 
 const swapAddress = () => {
+  if (originRef.current.value === '' && destinationRef.current.value === ''){
+    originRef.current.value = destinationStation;
+    destinationRef.current.value = originStation;
+    dateRef.current.value = haha.current.substring(0,10);
+    timeRef.current.value = haha.current.substring(11);
+    document.getElementById('submit').click();
+  } 
+  else{
     const tempAddress = originRef.current.value
     originRef.current.value = destinationRef.current.value
     destinationRef.current.value = tempAddress
+  }
 }
 
 const handleGetLocation = () => {
@@ -384,7 +319,6 @@ const { isLoaded } = useJsApiLoader({
 })
 
 const onLoad = React.useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds(center);
     setMap(map)
     }, [])
 
@@ -398,10 +332,20 @@ if(!isLoaded){
 
 const toggleMode = () => {
   changeMode(mode === 'dark' ? 'light' : 'dark')
-  if(mode == 'light'){
-    setStyle(exampleMapStyles)
+  if(mode === 'light'){
+    setStyle(darkStyle)
   }else{
-    setStyle([])
+    setStyle(lightStyle)
+  }
+}
+
+const changeHide = () => {
+  if(hideMode === 'show'){
+    setHideMode('dontshow')
+    setHideModeBtn('Show')
+  }else{
+    setHideMode('show')
+    setHideModeBtn('Hide')
   }
 }
 
@@ -417,6 +361,7 @@ return  isLoaded ?(
                 onUnmount={onUnmount} 
                 options={{
                     styles: style,
+                    streetViewControl: false,
                   }}
             >
             <Marker onLoad={onLoad} position={center}/>
@@ -427,6 +372,7 @@ return  isLoaded ?(
         </div>
         
         <form className={`SearchBox`} onSubmit={handleSubmit}>
+        <div className={`SearchBoxDiv`}>
         <img 
             src={modeIcon} 
             onClick={toggleMode} 
@@ -434,23 +380,23 @@ return  isLoaded ?(
             style={{ filter: mode === 'dark' ? 'invert(100%)' : 'invert(20%)'}}
             className='darkLight'
             />
-            <div>
+            <button onClick={changeHide}  type="button" className="btn a" id="submit">{hideModeBtn}</button>
+            <div id={`${hideMode}`}>
                 <Autocomplete>
                     <input 
-                        className={`input1 form-control form-control-lg inputOrigin ${mode}`}
+                        className={`input1 form-control form-control inputOrigin ${mode}`}
                         placeholder="Origin" 
                         aria-label=".form-control-lg example"
-                        style={{width:'100%',display:'flex', float:'left'}}
                         type="text" 
                         ref={originRef}
                         required
                     />
                 </Autocomplete>
                 </div>
-                <div>
+                <div id={`${hideMode}`}>
                 <Autocomplete>
                     <input 
-                        className={`input1 form-control form-control-lg inputDestination ${mode}`}
+                        className={`input1 form-control form-control inputDestination ${mode}`}
                         placeholder="Destination" 
                         aria-label=".form-control-lg example"
                         type="text" 
@@ -458,10 +404,10 @@ return  isLoaded ?(
                     />
                 </Autocomplete>
                 </div>
-                <div  style={{float: 'left', display: 'flex', width: '100%'}}>
+                <div className={'timeDate'} id={`${hideMode}`}>
                     <label >
                             <input 
-                                className={`input1 inputDate form-control form-control-lg ${mode}`}
+                                className={`input1 inputDate form-control form-control b ${mode}`}
                                 placeholder="Month:XX" 
                                 aria-label=".form-control-lg example"
                                 type="date" 
@@ -471,7 +417,7 @@ return  isLoaded ?(
                     </label>
                     <label >
                             <input 
-                                className={`input1 inputDate form-control form-control-lg ${mode}`}
+                                className={`input1 inputDate form-control form-control a ${mode}`}
                                 placeholder="Day:XX" 
                                 aria-label=".form-control-lg example"
                                 type="time" 
@@ -479,11 +425,14 @@ return  isLoaded ?(
                                 required
                             />
                     </label>
-                  
                 </div>
-            <button onClick={handleGetLocation}  type="button" className="btn btn-success">Use my current position as origin</button>
-            <button onClick={swapAddress}  type="button" className="btn btn-success">Swap Address</button>
-            <button onClick={handleSubmit}  type="button" className="btn btn-success" id="submit">Submit</button>
+              </div>
+            <button onClick={handleGetLocation}  type="button" className="btn" id={`${hideMode}`}>Use my current position as origin</button>
+            <button onClick={swapAddress}  type="button" className="btn" id={`${hideMode}`}>Swap Address</button>
+            <div class='btn-group' id='favClearBtn'>
+            <button onClick={useFav}  type="button" className="btn b" aria-disabled='true' id={`${hideMode}`}>Use favourite</button>
+            <button onClick={handleSubmit}  type="button" className="btn c" id={`${hideMode}`}>Submit</button>
+            </div>
             {showInfo && 
                 <Info 
                     setShowInfo={setShowInfo}
@@ -498,7 +447,6 @@ return  isLoaded ?(
                 />
 
             }
-            
         </form>
     </div>
   ):<></>
