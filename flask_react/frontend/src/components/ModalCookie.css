@@ -6,6 +6,17 @@
     margin-right: 10%;
 }
 
+.modal-body{
+    text-align: center;
+}
+
+.btn.btn-secondary{
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+
 @media only screen and (max-device-width: 500px) {
 
     .fade.modal.show{

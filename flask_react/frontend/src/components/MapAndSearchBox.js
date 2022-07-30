@@ -78,6 +78,10 @@ const cookies = new Cookies();
 //use state function dark mode and light mode
 const [style, setStyle] = useState(lightStyle)
 
+//use function for mode
+const [hideMode, setHideMode] = useState('dontshow')
+const [hideModeBtn, setHideModeBtn] = useState('Show')
+
 async function calculateRoute() {
     if (firstLoad && cookies.get('LastOrigin') &&cookies.get('LastDestination')){
       originRef.current.value = cookies.get('LastOrigin');
@@ -335,6 +339,16 @@ const toggleMode = () => {
   }
 }
 
+const changeHide = () => {
+  if(hideMode === 'show'){
+    setHideMode('dontshow')
+    setHideModeBtn('Show')
+  }else{
+    setHideMode('show')
+    setHideModeBtn('Hide')
+  }
+}
+
 return  isLoaded ?(
     <div>
         <div className='Map'>
@@ -366,7 +380,8 @@ return  isLoaded ?(
             style={{ filter: mode === 'dark' ? 'invert(100%)' : 'invert(20%)'}}
             className='darkLight'
             />
-            <div>
+            <button onClick={changeHide}  type="button" className="btn a" id="submit">{hideModeBtn}</button>
+            <div id={`${hideMode}`}>
                 <Autocomplete>
                     <input 
                         className={`input1 form-control form-control inputOrigin ${mode}`}
@@ -378,7 +393,7 @@ return  isLoaded ?(
                     />
                 </Autocomplete>
                 </div>
-                <div>
+                <div id={`${hideMode}`}>
                 <Autocomplete>
                     <input 
                         className={`input1 form-control form-control inputDestination ${mode}`}
@@ -389,7 +404,7 @@ return  isLoaded ?(
                     />
                 </Autocomplete>
                 </div>
-                <div className={'timeDate'}>
+                <div className={'timeDate'} id={`${hideMode}`}>
                     <label >
                             <input 
                                 className={`input1 inputDate form-control form-control b ${mode}`}
@@ -412,11 +427,11 @@ return  isLoaded ?(
                     </label>
                 </div>
               </div>
-            <button onClick={handleGetLocation}  type="button" className="btn" id="pushDown">Use my current position as origin</button>
-            <button onClick={swapAddress}  type="button" className="btn ">Swap Address</button>
+            <button onClick={handleGetLocation}  type="button" className="btn" id={`${hideMode}`}>Use my current position as origin</button>
+            <button onClick={swapAddress}  type="button" className="btn" id={`${hideMode}`}>Swap Address</button>
             <div class='btn-group' id='favClearBtn'>
-            <button onClick={useFav}  type="button" className="btn" id='pleaseWork' aria-disabled='true'>Use favourite</button>
-            <button onClick={handleSubmit}  type="button" className="btn" id="submit">Submit</button>
+            <button onClick={useFav}  type="button" className="btn b" aria-disabled='true' id={`${hideMode}`}>Use favourite</button>
+            <button onClick={handleSubmit}  type="button" className="btn c" id={`${hideMode}`}>Submit</button>
             </div>
             {showInfo && 
                 <Info 

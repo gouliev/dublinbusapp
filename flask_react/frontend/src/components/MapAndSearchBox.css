@@ -91,6 +91,10 @@
   width: '100%';
 }
 
+.btn.a{
+  display: none;
+}
+
 @media only screen and (max-device-width: 500px) {
   .SearchBox{
     margin-left: -8%;
@@ -116,19 +120,14 @@
     margin-top: 0px;
     height: 30px;
   } 
-/*
-  #pushDown.btn{
-    margin-top: 10%;
-  }
-  */
 
-  #submit.btn{
+  .btn.c{
     margin-bottom: -2px;
     padding-top: 5px;
     padding-bottom: 4px;
   }
 
-  #pleaseWork.btn{
+  .btn.b{
     margin-bottom: -2px;
     padding-top: 5px;
     padding-bottom: 4px;
@@ -155,70 +154,38 @@
   .darkLight{
     float: left;
     position: relative;
-    right: -12%;
+    right: -10.5%;
     bottom: 20px;
   }
 
-/*
-  .input1{
+  .btn.a{
+    bottom: 17px;
+    margin-right: 11.5%;
+    width: 50px;
+    height: 42px;
     display: block;
-    text-align: left;
-    margin: auto;
-    padding: 0px;
-    box-sizing: border-box;
-    font-size: smaller;
-    float:none;
+    background-color: white;
+    border-radius: 3px;
+    padding-right: 5px;
+    font-size: xx-small;
   }
 
-  .SearchBox .btn:hover{
-    background: #42A6F0;
+  .btn.a:hover{
+    background-color: white;
+    font-size: xx-small;
   }
 
-  .input1.dark{
-  color: black;
-  background: white;
-}
-  .darkLight{
-  float: left;
-  position: relative;
-  right: -10%;
-  bottom: 20px;
-}
+  .btn.a:focus{
+    color: black;
+    border-color: white;
+    font-size: xx-small;
+  }
 
-.input1.form-control.inputOrigin{
-  padding-right: 20%;
-  margin-left: 1px;
-  background: #03070a;
-}
-.input1.form-control.inputDestination{
-  width: 90%;
-  margin-left: 1px;
-}
-.input1.inputDate{
-  padding-left: 20%;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  font-size: large;
-  margin-left: 1px;
-  margin-right: 0px;
+  #dontshow{
+    display: none;
+  }
 
-}
-.input1.inputDate{
-  padding-left: 20%;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  font-size: large;
-  margin-left: 1px;
-  margin-right: 0px;
-
-}
-.input1.inputDate.form-control{
-  width: 107%;
-}
-.input1.inputDate.form-control.a{
-  margin-left: 13%;
-  padding-right: -10%;
-}
-*/
-
+  .dontshow{
+    display: none;
+  }
 }
