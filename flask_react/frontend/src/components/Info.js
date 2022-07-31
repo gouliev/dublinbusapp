@@ -4,14 +4,11 @@ import Cookies from 'universal-cookie';
 
 export default function Info({ 
   setShowInfo, 
-  clearRoute, 
   distance, 
-  duration, 
   originStation, 
   destinationStation,
   transitDistance,
   transitDuration, 
-  waitTime,
   hideMode
 }) {
   const handleCloseAndClearMap = () => {
