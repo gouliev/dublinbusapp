@@ -6,8 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import tutorial from '../assets/tutorial.gif'
 import './ModalCookie.css'
 
-export default function ModalFunction(){    
-    console.log("called")
+export default function ModalFunction(){
     const cookies = new Cookies();
     //https://react-bootstrap.github.io/components/modal/ this needs to be cited.
     const [show, setShow] = useState(true);
@@ -21,7 +20,6 @@ export default function ModalFunction(){
     }else{
           //un comment this to get the no show to work.
           cookies.set('AfterFirstUse', 'Yes', { path: '/', maxAge: 31556926 });
-          // console.log(cookies.get('AfterFirstUse'));
         return (
             <> 
               <Modal show={show} onHide={handleClose}>
