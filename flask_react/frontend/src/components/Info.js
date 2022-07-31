@@ -35,7 +35,7 @@ export default function Info({
           {/*I believe we should remove these items, fairly pointless, wil lcause spagfhetti code in other model */}
           {/*<li className="list-group-item"><p className='Header'>Wait time: </p><p className='Data'> {waitTime == 1? waitTime+" min": waitTime+" mins"} </p> </li>*/}
           {/*<li className="list-group-item"> <p className='Header'>Google prediction: </p><p className='Data'> {duration}</p></li>*/}
-          <li className="list-group-item"> <p className='Header'>Our prediction: </p><p className='Data'> {Math.trunc(transitDuration/60) > 0? Math.trunc(transitDuration/60)+" hour":null}
+          <li className="list-group-item"> <p className='Header'>Travel time: </p><p className='Data'> {Math.trunc(transitDuration/60) > 0? Math.trunc(transitDuration/60)+" hour":null}
                                                                 {Math.trunc(transitDuration/60) > 1? "s ":" "}
                                                                 {transitDuration%60 > 0? transitDuration%60+" min":null} 
                                                                 {transitDuration%60 > 1? "s":null}</p></li> {/* //only show plural if needed */}
