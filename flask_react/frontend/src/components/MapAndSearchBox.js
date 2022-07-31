@@ -83,8 +83,8 @@ const cookies = new Cookies();
 const [style, setStyle] = useState(lightStyle)
 
 //use function for mode
-const [hideMode, setHideMode] = useState('dontshow')
-const [hideModeBtn, setHideModeBtn] = useState('Show')
+const [hideMode, setHideMode] = useState('show')
+const [hideModeBtn, setHideModeBtn] = useState('Hide')
 const [hideModeBtnTwo, setHideModeBtnTwo] = useState('submit')
 
 async function calculateRoute() {
@@ -449,6 +449,7 @@ return  isLoaded ?(
                   transitDistance={transitDistance}
                   transitDuration={ourPrediction}
                   waitTime={waitTime}
+                  hideMode={hideMode}
               />
 
           }
