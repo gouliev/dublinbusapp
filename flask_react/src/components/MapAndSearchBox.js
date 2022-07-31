@@ -1,6 +1,6 @@
 import React from 'react'
 import Cookies from 'universal-cookie';
-import { useState, useRef, useEffect} from 'react';
+import { useState, useRef} from 'react';
 import { 
     GoogleMap, 
     useJsApiLoader, 
@@ -164,7 +164,7 @@ for(var i=0; i<results.routes[0].legs[0].steps.length; i++){
     busStationList.push(stops)
     var headsign = results.routes[0].legs[0].steps[i].transit.headsign
     busDirectionList.push(headsign)
-    const url = "http://127.0.0.1:5000/busRoute/"+ i +"/"+ route +"/"+ headsign +"/"+ stops +"/"+ (datedate.getMonth()+1) +"/"+ (datedate.getDay()+6)%7 +"/"+ datedate.getHours();
+    const url = "http://52.48.114.161:5000/busRoute/"+ i +"/"+ route +"/"+ headsign +"/"+ stops +"/"+ (datedate.getMonth()+1) +"/"+ (datedate.getDay()+6)%7 +"/"+ datedate.getHours();
     console.log(url);
     await apiCall(url).then(prediction => {
         console.log(prediction);

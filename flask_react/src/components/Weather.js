@@ -34,11 +34,11 @@ export default function Weather() {
 //dublin 207931
     const fetchWeather = useCallback (async () => {
       //const response = await fetch(weatherURL + `207931?apikey=${key}`)
-      const response = await fetch('http://127.0.0.1:5000/weather')
+      const response = await fetch('http://52.48.114.161:5000/weather')
       const json = await response.json()
       setWeather(json)
       console.log(json)
-    },['http://127.0.0.1:5000/weather'])
+    },[])
 
     //useEffect(() => {
     //  fetchCity()
