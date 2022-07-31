@@ -368,6 +368,7 @@ return  isLoaded ?(
               onUnmount={onUnmount} 
               options={{
                   styles: style,
+                  streetViewControl: false,
                 }}
           >
           <Marker onLoad={onLoad} position={center}/>
