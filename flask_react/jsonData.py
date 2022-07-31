@@ -21,7 +21,7 @@ class prediction():
     #The user will insert the time and date they wish to travel at. Where they are leaving from and going.
     #Data cleaning will follow the head of the modelTrainerTesting. It has one issue being the inclusion of Index.
     #this function inserts their data
-    def _cleanData(self):
+    def __cleanData(self):
         #here is the data m1-9, h6-23 and d1-6
         #if user input paramters outside this, make zero.
         if self.month < 12 and self.month > 1:
@@ -32,7 +32,7 @@ class prediction():
             self.data['hour'] = self.day
         return self.data
     #this confirms that we can handle this specific route through checking for the files existence
-    def _fileName(self):
+    def __fileName(self):
         file_name = "model" + str(self.route) + "_" + str(self.direction) + ".pkl"
         directory = str(os.getcwd())
         if os.path.exists(directory + "/flask_react/models/" +file_name):
@@ -41,11 +41,11 @@ class prediction():
             error_message = False
             return error_message
     #this is the function which actually gets and returns the prediction
-    def _getPrediction(self):
-        self.data = self._cleanData()
+    def __getPrediction(self):
+        self.data = self.__cleanData()
         requestData = pd.DataFrame(self.data)
         directory = str(os.getcwd())
-        filename = self._fileName()
+        filename = self.__fileName()
         if filename == False:
             return 'Route Not Supported'
         pickled_model = pickle.load(open(directory + "/flask_react/models/" + filename, 'rb'))
@@ -54,7 +54,7 @@ class prediction():
         return value
     #this is the function which formats and returns the data
     def jsonPrediction(self):
-        travelPrediction = self._getPrediction()
+        travelPrediction = self.__getPrediction()
         travelTime = travelPrediction
         returnData = {'bus_route': self.route, 'direction':self.direction, 'travel_time':travelTime, 'i':self.i}
         return returnData

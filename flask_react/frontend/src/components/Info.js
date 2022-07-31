@@ -4,14 +4,12 @@ import Cookies from 'universal-cookie';
 
 export default function Info({ 
   setShowInfo, 
-  clearRoute, 
   distance, 
-  duration, 
   originStation, 
   destinationStation,
   transitDistance,
   transitDuration, 
-  waitTime
+  hideMode
 }) {
   const handleCloseAndClearMap = () => {
     setShowInfo(false)
@@ -29,7 +27,7 @@ export default function Info({
   }
 
   return (
-      <div className="card">
+      <div className="card" id={hideMode}>
         <ul className="list-group list-group-flush">
           <li className="list-group-item a"><p className='Header'>Origin: </p><p className='Data'> {originStation}</p> </li>
           <li className="list-group-item"><p className='Header'>Destination: </p><p className='Data'> {destinationStation}</p> </li>
