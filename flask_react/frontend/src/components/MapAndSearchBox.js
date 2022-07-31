@@ -434,7 +434,7 @@ return  isLoaded ?(
               </div>
           <button onClick={handleGetLocation}  type="button" className="btn" id={`${hideMode}`}>Use my current position as origin</button>
           <button onClick={swapAddress}  type="button" className="btn" id={`${hideMode}`}>Swap Address</button>
-          <div class='btn-group' id='favClearBtn'>
+          <div className='btn-group' id='favClearBtn'>
           <button onClick={useFav}  type="button" className="btn b" aria-disabled='true' id={`${hideMode}`}>Use favourite</button>
           <button onClick={handleSubmit}  type="button" className="btn c" id={`${hideModeBtnTwo}`}>Submit</button>
           </div>
