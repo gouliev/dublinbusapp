@@ -1,0 +1,21 @@
+import unittest
+from selenium import webdriver
+
+GECKO_DRIVER_PATH = '/flask_react/frontend/index.html'
+
+class FindLink(unittest.TestCase):
+
+   def setUp(self):
+       self.driver = webdriver.Chrome(executable_path=GECKO_DRIVER_PATH)
+      
+   def test_link(self):
+       self.driver.get("http://localhost:3000/")
+       web_dev_link = self.driver.find_elements_by_partial_link_text('Origin')
+       # Test to see if we have origin in the react app
+       self.assertIsNotNone(web_dev_link)
+
+   def tearDown(self):
+       self.driver.quit()
+
+if __name__ == '__main__':
+   unittest.main()

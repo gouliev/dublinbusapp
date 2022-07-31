@@ -1,0 +1,20 @@
+class TestSearch(unittest.TestCase):
+
+   def setUp(self):
+       self.driver = webdriver.Chrome(executable_path=GECKO_DRIVER_PATH)
+
+   def test_search_by_text(self):
+       self.driver.get("http://localhost:3000/")
+       email = self.driver.find_element_by_name("Origin")
+       email.clear()
+       email.send_keys("UCD")
+       email = self.driver.find_element_by_name("Destination")
+       email.clear()
+       email.send_keys("Spire")
+       sbmt_button = self.driver.find_element_by_xpath('.//button[@class="btn btn-default login_form_button"]')
+       sbmt_button.click()
+       time.sleep(2)
+       self.assertTrue("submit" in self.driver.find_element_by_id("submit"))
+
+   def tearDown(self):
+       self.driver.quit()
