@@ -349,7 +349,7 @@ return  isLoaded ?(
                   streetViewControl: false,
                 }}
           >
-          {coordinate}
+          {/* {coordinate && < Marker  onLoad={onLoad} position={coordinate}/>} */}
           {showRoute  &&  <DirectionsRenderer directions={directionsResponse} routeIndex={2}/> }
           {/* {directionsResponse &&  <DirectionsRenderer directions={directionsResponse} /> } */}
           </GoogleMap>
