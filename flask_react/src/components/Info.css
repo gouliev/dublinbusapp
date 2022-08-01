@@ -1,7 +1,7 @@
 .card{
     border: 1px solid #eee;
     box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.5);
-    padding: 10px;
+    padding: 0px;
     max-width: 500px;
     border-radius: 4px;
     position: relative;
@@ -25,6 +25,13 @@
     display: inline-block;
     font-weight: bold;
     margin-left: 3px;
+}
+
+@media (min-width: 501px){
+    .card p{
+        padding-left:2px;
+        margin:0;
+    }
 }
 
 @media only screen and (max-device-width: 500px) {
