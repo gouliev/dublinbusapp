@@ -12,10 +12,7 @@ export default function ModalFunction(){
     const [show, setShow] = useState(true);
     const handleClose = () => setShow(false);
     const cookieValue = cookies.get('AfterFirstUse');
-    if(cookieValue !== 'firstRender'){
-      if (cookieValue !== 'Yes'){
-      cookies.set('AfterFirstUse', 'firstRender', { path: '/', maxAge: 31556926 });
-      }
+    if(cookieValue === 'Yes'){
       return(null);
     }else{
           //un comment this to get the no show to work.

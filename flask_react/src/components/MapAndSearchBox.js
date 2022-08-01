@@ -349,7 +349,6 @@ return  isLoaded ?(
                   streetViewControl: false,
                 }}
           >
-          <Marker onLoad={onLoad} position={center}/>
           {coordinate && < Marker  onLoad={onLoad} position={coordinate}/>}
           {showRoute  &&  <DirectionsRenderer directions={directionsResponse} routeIndex={2}/> }
           {/* {directionsResponse &&  <DirectionsRenderer directions={directionsResponse} /> } */}
