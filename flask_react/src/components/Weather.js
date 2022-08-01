@@ -37,7 +37,6 @@ export default function Weather() {
       const response = await fetch('http://52.48.114.161/weather')
       const json = await response.json()
       setWeather(json)
-      console.log(json)
     },[])
 
     //useEffect(() => {
