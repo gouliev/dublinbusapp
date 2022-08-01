@@ -91,8 +91,6 @@ async function calculateRoute() {
   if (firstLoad && cookies.get('LastOrigin') &&cookies.get('LastDestination')){
     originRef.current.value = cookies.get('LastOrigin');
     destinationRef.current.value = cookies.get('LastDestination');
-    console.log('here')
-  } else {
     setFirstLoad(false) 
   }
   if (favInUse){  
@@ -118,7 +116,6 @@ async function calculateRoute() {
   })
   let preds = await getPrediction(results)
   //这里面所有数据都是routes数组中的
-  console.log(preds);
       setOurPrediction(preds);
       setDirectionsResponse(results)
       setDistance(results.routes[0].legs[0].distance.text)
@@ -129,8 +126,6 @@ async function calculateRoute() {
       //Cookies are set and overwritten here.
       cookies.set('LastOrigin', results.routes[0].legs[0].start_address, { path: '/', maxAge: 31556926 }); //set cookies to expire (in a year) or else they're not kept
       cookies.set('LastDestination', results.routes[0].legs[0].end_address, { path: '/', maxAge: 31556926 });
-      console.log(cookies.get('LastOrigin'));
-      console.log(cookies.get('LastDestination'));
       setFirstLoad(false);
 }
 
@@ -138,7 +133,6 @@ async function calculateRoute() {
 //Takes in the API from Google as a parameter
 async function getPrediction(results){  
 let preds = [];
-console.log("Here: ", results)
 //initialize the bus route list and bus station list for console.log purposes
 var busRouteList = []
 var busStationList = []
@@ -147,10 +141,6 @@ var busDirectionList = []
 //Loop through the length of the steps 
 
 const datedate = new Date(haha.current)
-  console.log(Date(haha.current))
-  console.log(datedate)
-  console.log(datedate.getHours())
-
 var totalTransitDistance = 0;
 
 for(var i=0; i<results.routes[0].legs[0].steps.length; i++){
@@ -165,9 +155,7 @@ for(var i=0; i<results.routes[0].legs[0].steps.length; i++){
     var headsign = results.routes[0].legs[0].steps[i].transit.headsign
     busDirectionList.push(headsign)
     const url = "http://52.48.114.161/busRoute/"+ i +"/"+ route +"/"+ headsign +"/"+ stops +"/"+ (datedate.getMonth()+1) +"/"+ (datedate.getDay()+6)%7 +"/"+ datedate.getHours();
-    console.log(url);
     await apiCall(url).then(prediction => {
-        console.log(prediction);
         var j = prediction.i;
         if(prediction.travel_time === 'Route Not Supported'){
           preds.push(results.routes[0].legs[0].steps[j].duration.value);
@@ -192,19 +180,14 @@ for(var i=0; i<results.routes[0].legs[0].steps.length; i++){
     preds.push(results.routes[0].legs[0].steps[i].duration.value);
   }
 }
-console.log("Routes:", busRouteList)
-console.log("no.Stations:", busStationList)
-console.log("Directions:", busDirectionList)
 totalTransitDistance = (Math.round(totalTransitDistance/100) / 10).toFixed(1) + " km";
 setTransitDistance(totalTransitDistance);
 
 //loop over prediction array and sum
-console.log(preds, ourPrediction);
 let sumPreds = 0;
 for(let k=0;k < preds.length;k++){
   sumPreds += preds[k];
 }
-console.log(parseInt(sumPreds/60))
 return parseInt(sumPreds/60);
 }
 
@@ -229,8 +212,6 @@ function clearRoute(){
   timeRef.current.value = ''
   originRef.current.value = ''
   destinationRef.current.value = ''
-  console.log([directionsResponse,distance,duration,originStation,destinationStation,transitDistance,transitDuration])
-  
 }
 
 function useFav(){
@@ -261,7 +242,6 @@ const resetForm = () => {
 
 const handleSubmit = (e) => {
 if(useButton===true){
-  console.log('in handlesubmit')
   e.preventDefault()
   setShowRoute(true)
   if (firstLoad){
@@ -309,8 +289,6 @@ navigator.geolocation.getCurrentPosition(
       }
     )
     setCoordinate(latLng)
-    console.log(coordinate)
-    console.log(latLng)
   }
 )
 }
