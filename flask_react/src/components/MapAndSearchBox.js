@@ -154,7 +154,7 @@ for(var i=0; i<results.routes[0].legs[0].steps.length; i++){
     busStationList.push(stops)
     var headsign = results.routes[0].legs[0].steps[i].transit.headsign
     busDirectionList.push(headsign)
-    const url = "http://52.48.114.161/busRoute/"+ i +"/"+ route +"/"+ headsign +"/"+ stops +"/"+ (datedate.getMonth()+1) +"/"+ (datedate.getDay()+6)%7 +"/"+ datedate.getHours();
+    const url = "https://seanjprojects.com/busRoute/"+ i +"/"+ route +"/"+ headsign +"/"+ stops +"/"+ (datedate.getMonth()+1) +"/"+ (datedate.getDay()+6)%7 +"/"+ datedate.getHours();
     await apiCall(url).then(prediction => {
         var j = prediction.i;
         if(prediction.travel_time === 'Route Not Supported'){
