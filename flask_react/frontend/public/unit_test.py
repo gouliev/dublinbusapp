@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 origin = "UCD"
 destination = "Spire"
-driver = webdriver.Edge()
+driver = webdriver.Chrome()
 driver.get("http://localhost:3000/")
 element = driver.find_element_by_id("origin")
 element.send_keys(origin)
