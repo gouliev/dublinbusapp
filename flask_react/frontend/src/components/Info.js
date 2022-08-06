@@ -4,14 +4,12 @@ import Cookies from 'universal-cookie';
 
 export default function Info({ 
   setShowInfo, 
-  clearRoute, 
   distance, 
-  duration, 
   originStation, 
   destinationStation,
   transitDistance,
   transitDuration, 
-  waitTime
+  hideMode
 }) {
   const handleCloseAndClearMap = () => {
     setShowInfo(false)
@@ -29,7 +27,7 @@ export default function Info({
   }
 
   return (
-      <div className="card">
+      <div className="card" id={hideMode}>
         <ul className="list-group list-group-flush">
           <li className="list-group-item a"><p className='Header'>Origin: </p><p className='Data'> {originStation}</p> </li>
           <li className="list-group-item"><p className='Header'>Destination: </p><p className='Data'> {destinationStation}</p> </li>
@@ -37,7 +35,7 @@ export default function Info({
           {/*I believe we should remove these items, fairly pointless, wil lcause spagfhetti code in other model */}
           {/*<li className="list-group-item"><p className='Header'>Wait time: </p><p className='Data'> {waitTime == 1? waitTime+" min": waitTime+" mins"} </p> </li>*/}
           {/*<li className="list-group-item"> <p className='Header'>Google prediction: </p><p className='Data'> {duration}</p></li>*/}
-          <li className="list-group-item"> <p className='Header'>Our prediction: </p><p className='Data'> {Math.trunc(transitDuration/60) > 0? Math.trunc(transitDuration/60)+" hour":null}
+          <li className="list-group-item"> <p className='Header'>Travel time: </p><p className='Data'> {Math.trunc(transitDuration/60) > 0? Math.trunc(transitDuration/60)+" hour":null}
                                                                 {Math.trunc(transitDuration/60) > 1? "s ":" "}
                                                                 {transitDuration%60 > 0? transitDuration%60+" min":null} 
                                                                 {transitDuration%60 > 1? "s":null}</p></li> {/* //only show plural if needed */}

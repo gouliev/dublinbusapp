@@ -9,7 +9,6 @@ function App() {
     const submitButton = document.getElementById('submit');
     if (submitButton) {
       setTimeout(function() {
-        console.log('button press');
         submitButton.click();
       }, 100);      
       observer.disconnect();
