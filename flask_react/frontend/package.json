@@ -19,8 +19,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "testwithmorejest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "type": "module",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "testwithjest": "jest",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
