@@ -365,24 +365,28 @@ return  isLoaded ?(
           />
             <button onClick={changeHide}  type="button" className="btn a">{hideModeBtn}</button>
             <div id={`${hideMode}`}>
-              <Autocomplete>
+              <Autocomplete bounds={new window.google.maps.LatLngBounds(
+                      new window.google.maps.LatLng(53.026201, -6.976854),
+                      new window.google.maps.LatLng(53.628208, -5.974352))}>
                   <input 
                       className={`input1 form-control form-control inputOrigin ${mode}`}
                       placeholder="Origin" 
                       aria-label=".form-control-lg example"
                       type="text" 
-                      ref={originRef}
+                      ref={originRef}                      
                       required
                   />
               </Autocomplete>
               </div>
               <div id={`${hideMode}`}>
-              <Autocomplete>
+              <Autocomplete bounds={new window.google.maps.LatLngBounds(
+                      new window.google.maps.LatLng(53.026201, -6.976854),
+                      new window.google.maps.LatLng(53.628208, -5.974352))}>
                   <input 
                       className={`input1 form-control form-control inputDestination ${mode}`}
                       placeholder="Destination" 
                       aria-label=".form-control-lg example"
-                      type="text" 
+                      type="text"
                       ref={destinationRef}
                   />
               </Autocomplete>
