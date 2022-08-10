@@ -47,7 +47,6 @@
     position: relative;
     float:none;
     right: 150px;
-    
   }
 
   .SearchBox .btn:hover{
@@ -67,6 +66,11 @@
     font-size: 1em;
   }
 
+.input1.light{
+  color: black;
+  background: #42A6F0;
+  opacity:0.75;
+}
 .input1.dark{
   color: black;
   background: white;
