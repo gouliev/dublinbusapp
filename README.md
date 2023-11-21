@@ -1,7 +1,6 @@
 # Dublin Bus AI-Prediction App
 
 ![image](https://user-images.githubusercontent.com/91686296/230727139-49709f94-7cc3-4a52-be7b-4918845b8034.png)
-![Banner](https://user-images.githubusercontent.com/91686296/230939742-9e266250-3969-4b40-a953-7c52bc19d1d3.png)
 
 This project is a web application for Dublin Bus users to conveniently plan their trips. The application can also suggest trips using other public transportation services (e.g. DART and Go-Ahead).
 
